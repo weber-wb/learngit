@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>git config</title>
+</head>
+<body>
+    <script>
+        window.onload = function(){
+
+            // 使用命令  git config --list  查看配置列表
+            // 可以简写  git config -l
+            
+            /* 
+                添加 git config 配置
+                git config --global 命名'值'
+                git config --global bian.name '666'
+
+                如果这个命名存在也可以直接覆盖修改，还可以替换 git config 中已有的邮箱
+                git config --global --replace-all user.email '输入你的邮箱'
+                git config --global --replace-all user.name '输入你的用户名'
+
+                删除命令
+                    git config --global --unset 命名                    
+                    Eg: git config --global --unset bian.name
+            */
+
+            // 还有常用的推送更新到gitlab 和 GitHub 的命令
+            // git status    查看状态
+            // git add .  或者  git add -a  或者 git add *       添加文件到暂存区
+            // git commit -m "备注信息"     提交文件
+
+            // git push origin master     确定推送到主分支
+
+            // git clone https:github/ITdian/misass      克隆项目
+
+            // git pull https:github/ITdian/misass       更新项目
+
+            // git log          查看历史
+            
+            // 在本地生成一个公钥,使用命令如下:
+            //     ssh-keygen -t rsa
+            //     设置里面添加ssh;
+        }
+    </script>
+</body>
+</html>
