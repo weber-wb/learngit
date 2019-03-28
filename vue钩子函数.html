@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue钩子函数</title>
+    <script src="node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="my">
+        <input type="text" v-model='msg'>
+        <p ref='msg'>{{msg}}</p>
+
+        <a href="set添加属性.html">跳转到set添加属性页面</a>
+    </div>
+
+    <div id="NotElement">
+        <p v-show="flag">{{msg}}</p>
+        <button @click="changeBox()">显示隐藏</button>
+    </div>
+
+    <script>
+        window.onload = function(){
+            new Vue({
+                el: '#my',
+                data: {
+                    msg: 'Hello world',
+                    num: 0
+                },
+                // 获取自定义属性 vm.$options
+                otherName: 'Tom',
+                show:function(){
+                    console.log('自定义属性方法调用 - show tab pager size');
+                },
+                // beforeCreate () {
+                //     console.log("beforeCreate创建前状态  el: " + this.$el);           //undefined
+                //     console.log("beforeCreate创建前状态  data: " + this.$data);       //undefined
+                // },
+                // created () {
+                //     console.log("created创建前状态  el:  " + this.$el);             //undefined
+                //     console.log("created创建前状态  data:  " + this.$data);         //[object object]
+                // },
+                // beforeMount () {
+                //     console.log("beforeMount挂载前状态  el:  "+ this.$el);          //undefined
+                //     console.log("beforeMount挂载前状态  data:  "+ this.$data);      //[object object]
+                // },
+                mounted () {
+                    console.log("mounted挂载后状态  el:  "+ this.$el);              //[object HTMLDivElement]
+                    console.log("mounted挂载后状态  data:  "+ this.$data);          //[object object]
+
+                    // vm.$el: Vue实例使用的根DOM元素
+                    // vm.$data: 获取数据对象data
+                    // vm.$options: 获取自定义属性
+                    // vm.$refs: 一个对象，持有注册过ref特性的所有DOM元素和组件实例
+                    console.log(this.$options.otherName);
+                    this.$options.show();
+                    this.$refs.msg.style.fontSize = '20px';
+
+                    // this.nextTick(callback);     在DOM更新完成后再执行回调函数，一般在修改数据之后使用该方法，以便获取更新后的DOM
+                    this.$nextTick(()=>{
+                        var timer = setTimeout(()=>{
+                            console.log('123123123');
+                            this.$destroy();     //销毁实例
+                        },3000);
+                    })
+
+                },
+                beforeUpdate () {
+                    console.log("beforeUpdate  el:  "+ this.$el);
+                    console.log("beforeUpdate  data:  "+ this.$data);
+                    console.log(this.$refs.msg);
+                    console.log('beforeUpdate 数据改变前内容：' + this.$refs.msg.innerHTML);
+                },
+                updated () {
+                    console.log("updated  el:  "+ this.$el);
+                    console.log("updated  data:  "+ this.$data);
+                    console.log(this.$refs.msg);
+                    console.log('beforeUpdate 数据改变后内容渲染：' + this.$refs.msg.innerHTML);
+                },
+                beforeDestroy () {
+                    console.log("beforeDestroy --  el:  "+ this.$el)
+                },
+                destroyed () {
+                    console.log("destroyed  --  data: "+ this.$data)
+                }
+            })
+
+            // 没有el元素   this.$mount()     使用场景
+            var vm = new Vue({
+                data: {
+                    msg: 'Not Element',
+                    flag: true
+                },
+                methods:{
+                    changeBox:function(){
+                        this.flag = this.flag ? false : true;
+                    }
+                }
+            }).$mount('#NotElement');
+
+
+        }
+    </script>
+    
+</body>
+</html>

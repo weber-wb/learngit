@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vs-demo</title>
+    <script src="node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="my">
+        <p>添加属性，删除属性，watch监听</p>
+        <button @click="doAdd">添加属性</button>
+        <button @click="doDelete">删除属性</button>
+
+        <p>姓名：{{user.name}}</p>
+        <p>年龄：{{user.age}}</p>
+
+        <!-- watch 使用场景 -->
+        <div class="part1">
+            <input type="text" name="name" v-model='age'>
+            <p>监听年龄：{{age}}</p>
+
+            <input type="text" v-model="user.name">
+            <p ref='name'>监听姓名：{{user.name}}</p>
+            
+            <!-- 值可以为methods的方法名 -->
+            <input type="text" v-model="wDefault">
+        </div>
+
+    </div>
+    
+    <script>
+        window.onload = function(){
+            var vm = new Vue({
+                el: '#my',
+                data: {
+                    name: 'weber',
+                    age: 30,
+                    user: {
+                        id: '0001',
+                        name:'john'
+                    },
+                    wDefault: '默认值'
+                },                
+                created () {
+                    // 方式1： 使用vue实例提供的 $watch() 方法
+                    
+                    // this.$watch('age',function(newValue,oldValue){
+                    //     console.log('age被修改了，原值：' + oldValue + ', 新值： '+ newValue)
+                    // });
+                    // this.$watch('user', (newValue,oldValue)=>{
+                    //     console.log('user被修改了，原值：' + oldValue.name + ', 新值： '+ newValue.name)
+                    // },{
+                    //     deep:true
+                    // })
+                    // this.$watch('user',function(newValue,oldValue){
+                    //     console.log('user被修改了，原值：' + oldValue.name + ', 新值： '+ newValue.name)
+                    // }, {deep:true})
+                },
+                methods: {
+                    doAdd:function(){
+                        console.log('添加属性');
+                        
+                        // this.user.age = 18;      //通过普通方式为对象添加属性时vue无法实时监视到，页面并不能展示{{user.age}}的数据
+                        
+                        // Vue.set(this.user, 'age', 30);
+
+                        // this.$set(this.user, 'age', 20);     //通过vue实例的$set方法为对象添加属性，可以实时监视
+                        if(this.user.age){
+                            this.user.age ++;
+                        }else{
+                            this.$set(this.user, 'age', 20);
+                        }
+                    },
+                    doDelete:function(){
+                        console.log('删除属性');
+                        // delete this.user.age;   //此方法无效，页面不能更改{{user.age}}的数据
+
+                        // Vue.delete(this.user, 'age');
+
+                        this.$delete(this.user, 'age');     //通过vue实例的$delete方法删除对象属性，对象是响应的，删除能触发更新视图
+                    },
+                    watchFn:function(newValue,oldValue){                        
+                        console.log('值可以为methods的方法名 —— 原值：' + oldValue, '新值：' + newValue)
+                    }
+                },
+                watch: {    // 方式2： 使用vue实例提供的watch选项
+                    age:function(newValue,oldValue){
+                        console.log('age被修改了，原值：' + oldValue + ',新值： '+ newValue)
+                    },
+                    user:{
+                        handler:function(newValue,oldValue){    //  注意：当观察的数据为对象或数组时，newValue和oldValue是相等的，因为两个形参指向的是同一个数据对象
+                            console.log('user被修改了，原值：' + oldValue.name + ',新值： '+ newValue.name)
+                        },
+                        deep:true        //当观察数据为对象时，如果键值发生变化，为了监听到数据变化，需要添加deep:true参数
+                    },
+                    wDefault:'watchFn'      //值可以为methods的方法名
+                }                
+            })
+        }
+    </script>
+</body>
+</html>
