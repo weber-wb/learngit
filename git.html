@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>git教程</title>
+</head>
+<body>
+
+    <div id="my">
+        <h1>远程仓库</h1>
+        <p>Git是分布式版本控制系统，同一个Git仓库，可以分布到不同的机器上。</p>
+
+        <!--
+            由于本地Git仓库和GitHub仓库之间的传输是通过 SSH 加密的，所以需要设置一点
+            第1步：创建 SSH Key     在用户主目录下，看看有没有.ssh目录, 如果有,再看看这个目录下有没有id_rsa和id_rsa.pub这两个文件,如果都已经有了,可直接跳转到下一步
+            若没有, 打开shell（Windows下打开Git Bash）, 创建 SSH Key            
+            $ ssh-keygen -t rsa -C 'you email@example.com'      一路回车,使用默认值即可
+            如果一切顺利,可以在用户主目录中找到 .ssh 目录 , 目录里有id_rsa 和 id_rsa.pub 这两个文件, id_rsa 是私钥,不能泄露出去  id_rsa.pub是公钥,可以放心告诉任何人
+
+            登录GitHub  ——>> setting ——>> SSH and GPG keys  ——>>  New SSH key  ——>>  输入对应的title  把主目录下的公钥内容复制 Key 文本框   ——>> Add SSH Key
+            友情提示: 在GitHub上免费托管的Git仓库, 任何人都可以看到喔（但只有你自己才能改）, 所以不要把敏感信息放进去
+        -->
+    </div>
+
+    <script>
+        window.onload = function(){
+            // Git 安装完成后  Git -->> Git Bash
+            // $ git config --global user.name 'Your Name'
+            // $ git config --global user.email 'email@example.com'
+            // 因为Git是分布式版本控制系统,所以每个机器都必须自报家门：你的名字和你的Email地址
+
+            // 第一步
+            // 创建一个版本库，首先选择一个合适的地方创建一个空目录
+            // $ mkdir vscode-vuedemo
+            // $ cd vscode-vuedemo
+            // $ pwd    -->>pwd命令用于显示当前目录
+            // 警告： 如果使用的是windows系统，为了避免遇到各种各样莫名其妙的问题，请确保目录名(包括父目录)不包含中文
+            // 第二步
+            // $ git init       -->> Initialized empty Git repository in F:/workSpace/vscode-vuedemo/.git/
+            // 瞬间Git就把仓库建好了，而且告诉你是个空的仓库(empty Git repository)，当前目录下多了个.git的目录，这个目录是Git来跟踪管理版本库的，没事千万不要手动修改这个目录里面的文件，不然乱改就把Git仓库破坏了
+            // 如果没有看到.git目录，那是因为这个目录默认是隐藏的，用 （ls -ah） 命令就可以看见
+
+            // 相对于和把大象放进冰箱需要三步，把一个文件放进Git仓库只需要两步  
+            // 在Git仓库编写一个文件 readme.txt
+            
+            // 第一步： 用命令  $ git add readme.txt    执行
+            // 没有任何显示就对了，Unix的哲学是 "没有消息就是好消息"，说明添加成功
+            // 第二步： 用命令  $ git commit -m '提交的文件说明'        说明可以是任意内容，当然最好是有意义的，这样就能从历史记录方便找到改动的记录
+            // 执行 $ vi readme.txt 
+            // 可进入文件编辑模式  键入字母 "i" 或按 "Insert" 键进入最常用的插入编辑模式
+            // 修改完文件之后按Esc键退出当前编辑模式进入命令模式   在命令模式下键入 "ZZ"(注意是大写) 或键入 ":wq" 并按Enter键退出编辑器
+            // 当然修改完成后记得要用  git add readme.txt   -->>    git commit -m '编辑修改'
+
+            // 用命令 $ git status  可以让我们时刻掌握仓库当前的状态
+            // no changes added to commit (use "git add" add/or "git commit -a")        -->>命令输出告诉我们  文件被修改，但还没有准备提交的修改
+
+            // 用命令 $ git diff  顾名思义就是查看difference    知道了对文件做了什么修改，再把它提交到仓库就放心多了    提价修改-提交新文件是一样的两步 git add '文件'  git commit -m '提交说明'
+            // nothing to commit, working tree clean    没有需要提交的修改，工作目录是干净的
+
+            // 删除文件夹
+            // 1. ls  查看本地分支的文件
+            // 2. rm  文件夹 -r -f      删除文件夹及其文件夹下的所有文件    删除指定的文件      rm -rf  文件路径(a/b/c.txt)
+            // 3. git commit -m '备注删除信息'      同步删除操作到远程分支
+            // 4. git push origin master    提交分支
+
+
+            // 用命令 $ git log 查看历史记录    键入 Q 退出历史记录进入命令模式
+            // 如果嫌输出信息太多，眼花缭乱的 可以试试看  git log --pretty=oneline
+
+            // 如何回退到上一个版本， 首先Git必须知道当前版本是哪个版本， 在Git中，用HEAD表示当前版本
+            // 上一个版本就是HEAD^ , 上上一个版本就是HEAD^^ , 当然往上100个版本写100个^比较容易数不过来，所以写成HEAD~100
+            // 回退到上一个版本，可以使用 git reset --hard HEAD^        --hard ??
+
+            // 回退到某一个版本后悔，想恢复到新版本怎么办??? 在Git中总是有后悔药可以吃的,牛皮啊马飞
+            // $ git reflog 用来记录你的每一次命令  -->> 从输出可以知道 commit id 
+            // $ git reset --hard commit_id     eg: git reset --hard dc43950
+            // cat readme.txt   cat命令主要用来查看文件内容，创建文件，文件合并，追加文件内容等功能。
+            
+            // 新建文件夹：
+            // mkdir + 文件夹名称
+            // 新建文件有两种方式：
+            // 1. touch + 文件名    直接新建一个文件
+            // 2. vi + 文件名   新建一个文件并进入编辑状态（如果文件已存在，则进入编辑状态）
+            // vi 其实是Linux的一个文本编辑器，所以 vi+文件名后，其实是进入vi程序了， vi有两种模式，编辑模式和命令模式
+            // 在命令模式下 ，键入i 或者 Insert键 进入编辑模式 
+            // 在编辑模式下 ，按下Esc 进入命令模式
+
+            // 工作区和暂存区
+            // Git和其他版本控制系统 如SVN的一个不同之处就是有暂存概念
+            // 工作区（Working Directory）  -->>电脑中能看到的目录  比如我的vscode-vuedemo文件夹就是一个工作区
+            // 版本库（Repository）     -->>工作区中有一个隐藏目录 .git , 这个不算是工作区，而是Git的版本库
+            // git add 命令实际上就是把要提交的所有修改放到暂存区（stage），然后执行 git commit 就可以一次性把暂存区的所有修改提交到分支
+
+            // 管理修改
+            // 为什么Git比其他版本控制系统设计得优秀，因为Git跟踪并管理的是修改，而非文件
+            // readme.txt 实验
+            // 第一次修改  vi readme.txt 修改  -->>  git add readme.txt （放置暂存区）   --↓↓↓↓
+            // 第二次修改  vi readme.txt  -->>  git commit -m '提交第一次文件' (git commit 只是负责把暂存区的修改提交了)  也就是第一次的修改 git add readme.txt 被提交了，第二次的修改不会被提交
+            // git status 查看
+            // 用命令 git diff -- readme.txt   可以查看     本地文件和暂存区文件（执行 git add 文件名）的区别
+            // 用命令 git diff HEAD -- readme.txt 可以查看  工作区和版本库里面最新版本的区别
+            // 提示： 如何理解git跟踪修改， 每次修改如果不用 git add 到暂存区，那就不会加入到 git commit 中
+
+            // 撤销修改
+            // 场景1：  当你乱改了工作区某个文件的内容，想直接丢弃工作区的修改时，用命令 git checkout -- file (file表示文件名)
+            // 场景2：  当你不但乱改了工作区某个文件的内容，还添加到了暂存区，想丢弃修改，分两步
+                // 第一步： git reset HEAD file
+                // 第二步： git checkout -- file
+            // 场景3：  已经提交了不合适的修改到版本库时，想要撤销本次提交，回退版本   git reset --hard  dc34950
+                // 前提是没有推送到远程库  一旦把修改的文件“stupid boss”提交推送到远程版本库，那你就真的惨了...
+
+
+            // 删除文件
+            // 在Git中，删除也是一个修改操作
+            // 小提示： 先手动删除文件，然后用git rm <file> 和 git add <file> 效果是一样的
+            // 一般情况下，通常直接在文件管理器中把没用的文件删除了， 或者用 rm 命令删除了
+            // 命令     rm text.txt
+            // git status 查看, Git知道删除了文件，因此工作区和版本库就不一致了
+            // 现在有两个选择
+            // 一是确实要从版本库删除该文件，那就用命令 git rm text.txt 删除， 并且 git commit -m '删除text.txt'
+            // 另一种情况就是删错了，因为版本库里还有呢，可以轻松的把误删除的文件恢复到最新版本
+            // git checkout -- text.txt  
+            // 命令 git checkout 其实就是版本库里的版本替换工作区的版本，无论是工作区是修改还是删除，都可以"一键还原"
+            // 删除多个文件恢复  git checkout .       添加多个文件  git add .
+            
+            // 命令 git rm 用于删除一个文件，如果一个文件已经被提交到版本库，那么你永远不用担心误删，但是要小心，你只能恢复到文件的最新版本，你会丢失最近一次提交后的修改内容
+
+            // rm text.txt || 手动删除  -->> git status   -> 恢复  git checkout text.txt
+
+            // git rm text.txt  -->> git status  ->  git reset HEAD text.txt   (使用git reset head <file> 取消固定)   ->恢复  git checkout text.txt
+
+            // git rm text.txt  -->> 提交到版本库了 git commit -m '删除文件了'  --> 恢复的话回到上一个版本  git reset --hard HEAD^  (注意：如果删除前做了修改没有提交到版本库的话，恢复的文件只能是最新的版本)
+
+
+        }
+    </script>
+
+</body>
+</html>
