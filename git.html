@@ -54,6 +54,14 @@
                 分布式版本系统的最大好处之一是在本地工作完全不需要考虑远程库的存在，也就是有没有互联网都可以正常工作，
                 而SVN在没有互联网的时候是拒绝干活的！
                 当有网络的时候，再把本地提交推送一下就完成了同步，Amazing...
+
+            在Git中删除 commit 记录     eg:比如之前提交的有错不想在commit记录中存在
+                1.将Git切换到之前提交的Git项目所在目录
+                2.使用 git log  || git log --pretty=oneline 命令查看commit的历史记录及其对应的commit_id
+                3.使用 git reset --hard commit_id   对应的commit_id 改成要回退到 commit_id 的状态
+
+                使用下列命令4使本地和远程的内容都回退到commit_id对应的状态
+                4.使用 git push origin HEAD --force
         -->
     </div>
 
