@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Git CONFLICT</title>
+</head>
+<body>
+    <h1>分支合并 冲突解决</h1>
+    <!--  confilct 冲突 -->
+
+    <!-- 人生不如意之事十之八九，合并分支往往也不是一帆风顺的 -->
+
+    <!-- 
+        准备新的分支，继续新分支开发：
+            $ git checkout -b feature1
+            $ vi readme.txt     修改readme.txt文本内容  增加 Creating a new branch is quick AND Simple. 
+            保存 (:w)   保存退出 (:wq || ZZ)   放弃修改 (:e!)  放弃修改退出 (:q!)    
+
+        在分支feature1分支上提交：
+            $ git add readme.txt
+            $ git commit -m 'feature1 add simple'
+        
+        切换到 master 分支上：
+            $ git checkout master
+            Git 还会自动提示我们当前的master分支比远程的master分支要超前1个提交
+            $ vi readme.txt    修改readme.txt文本内容  添加 creating a new branch is quick & simple.  
+            $ git add readme.txt
+            $ git commit -m 'master add simple'
+        
+        现在 master分支 和 feature1分支 各自都有分别新的提交
+        这种情况下，Git无法执行 "快速合并"，只能视图把各自的修改合并起来，但是这种合并就可能会有冲突，试试看：
+            $ git merge feature1
+            
+            Auto-merging  readme.txt
+            CONFLICT(content):Merge conflict in readme.txt
+            Automatic merge failed; fix conflicts and then commit the result.
+
+            果然冲突，Git告诉我们 readme.txt 文件存在冲突，必须手动解决冲突
+            $ git status  
+            查看状态也可以告诉我们冲突的文件
+            
+            $ cat readme.txt
+            也可以直接查看冲突文件的内容
+            Git 用 <<<<<<< , ======= , >>>>>>> 标记出不同分支的内容
+
+            编辑冲突文件
+            vi readme.txt
+
+            再进行提交
+            $ git add readme.txt
+            $ git commit -m 'conflict fixed'  
+
+            用 git log --pretty=oneline   也可也看到分支的合并情况
+            用 git log --pretty=oneline --abbrev-commit  也可以看到合并分支流程
+
+            最后，删除 feature1分支
+            $ git branch -d feature1
+
+            End---
+     -->
+
+    
+</body>
+</html>
