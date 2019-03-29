@@ -25,6 +25,7 @@
         切换到 master 分支上：
             $ git checkout master
             Git 还会自动提示我们当前的master分支比远程的master分支要超前1个提交
+                (分支超前情况：本地master比远程库的master超前，在master上 merge 分支后，在分支提交commit多次，在切回到master上会提示超前多次)
             $ vi readme.txt    修改readme.txt文本内容  添加 creating a new branch is quick & simple.  
             $ git add readme.txt
             $ git commit -m 'master add simple'
