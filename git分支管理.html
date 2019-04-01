@@ -1,1 +1,50 @@
-ml
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>git 分支管理</title>
+</head>
+<body>
+    
+    <div id="my">
+
+        <h2>Git分支管理</h2>
+        
+        <p>
+            通常在合并分支时，可能Git会用 Fast forward 模式，但是这种模式下，删除分支，会丢掉分支信息<br/>
+            如果要强制禁用 Fast forward 模式，Git就会在merge时生成一个新的commit，这样，从分支历史上可以看出分支信息
+            下面实战一下 "--no-ff" 的方式 git merge
+
+            $ git checkout -b dev
+            $ vi readme.txt         ————>>  添加内容 "git 分支管理策略 new branch"  退出保存:wq
+            $ git add redame.txt
+            $ git commit -m 'dev add merge'
+
+            切换分支到master
+            $ git checkout master
+
+            准备合并 dev分支 ， 请注意 --no-ff 参数 ，表示禁用 Fast forward
+            $ git merge --no-ff -m 'merge with --no-off' dev
+            因为本次合并要创建一个新的commit ， 所以加上了 -m 参数 ， 把 commit 描述写进去
+
+            合并后，用 git log 查看分支情况
+            $ git log --graph --pretty=oneline --abbrev-commit
+
+            Git分支十分强大，在团队开发中应该充分利用
+            合并分支时，加上 --no-ff 参数就可以使用普通合并模式，合并后的历史有分支，能看出来曾经做过的合并 有信息描述  -m '描述信息'
+            而 Fast forward （快速模式） 就看不出来曾经做过的合并
+
+        </p>
+
+    </div>
+
+    <script>
+        window.onload = function(){
+
+        }
+    </script>
+
+</body>
+</html>
