@@ -53,6 +53,62 @@
                 $ git checkout -b dev
                 $ git push -u origin dev
 
+
+            多人协作时，大家都会往master 和 dev 分支上推送各自的修改
+            现在，模拟一个小伙伴可以在另一台电脑上（注意要把 SSH Key 添加到 GitHub）或者同一台电脑下的另一个目录下克隆
+            
+            $ git clone git@github.com:weber-wb/learngit.git
+            当小伙伴从远程库克隆下来时，默认情况下，你的小伙伴一般只能看到本地的master分支，用 git branch 命令查看
+
+            现在开始要在 dev 分支上开发，就必须创建远程 origin 的 dev分支到本地，于是用这个命令创建本地 dev 分支：
+            $ git checkout -b dev origin/dev
+            
+            现在就可以在dev上继续修改，然后时不时可以把dev分支push到远程
+            $ vi env.txt  
+            $ git add env.txt
+            $ git commit -m 'add env.txt'
+            $ git push origin dev
+            
+            你的小伙伴已经向 origin/dev 分支推送了他的提交，而碰巧你也对同样的文件进行了修改，并试图推送：
+            $ vi env.txt 
+            $ git add env.txt
+            $ git commit -m 'add env.txt'
+            $ git push origin dev
+            推送失败：
+                因为你的小伙伴的最新提交 和 你试图推送的提交有冲突，解决方法也很简单，git已经提示我们，先用 git pull 把最新的提交从 origin/dev 抓下来，然后在本地合并，解决冲突，再推送
+                $ git pull
+                然而 git pull 也失败了，原因是没有指定本地的 dev分支 与 远程origin/dev 分支的链接，根据提示设置 dev 和 origin/dev 的链接
+                $ git branch --set-upstream-to=origin/dev dev
+
+                再进行 git pull
+                $ git pull 
+                返回 git pull 成功，但是合并有冲突，需要手动解决，解决的方法和分支管理中的解决冲突完全一样，先解决，提交，再push
+                $ vi env.txt
+                $ git add env.txt
+                $ git commit -m 'fix env conflict'
+                $ git push origin dev
+            
+            因此多人协作的工作模式就是这样的：
+                1.首先，可以试图用 git push origin dev推送自己的修改
+                2.如果推送失败，则因为远程分支比你的本地更新，需要使用  git pull 试图合并
+                3.如果合并有冲突，则解决冲突，并在本地提交
+                4.没有冲突或者解决冲突后，再用 git push origin dev 推送就能成功
+                如果 git pull 提示 no tracking information , 则说明本地分支和远程分支的链接关系没有创建，用命令：
+                    $ git branch --set-upstream-to=origin/dev dev       ||   $ git branch --set-upstream-to dev origin/dev
+
+            小结：
+                查看远程库信息，使用 git remote -v
+
+                本地新建的分支如果不推送到远程，对其他人就是不可见的；
+
+                从本地推送分支，使用git push origin branch-name，如果推送失败，先用git pull抓取远程的新提交；
+
+                在本地创建和远程分支对应的分支，使用git checkout -b branch-name origin/branch-name，本地和远程分支的名称最好一致；
+
+                建立本地分支和远程分支的关联，使用git branch --set-upstream branch-name origin/branch-name；
+
+                从远程抓取分支，使用git pull，如果有冲突，要先处理冲突。
+
         </pre>
 
     </div>
