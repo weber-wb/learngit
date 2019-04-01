@@ -50,6 +50,23 @@
             修复bug时，我们会通过创建新的bug分支进行修复，然后合并，最后删除
             当手头工作没有完成时，先把工作现场git stash一下，然后去修复bug，修复后，再git stash pop，回到工作现场
 
+
+            软件开发中，总是有无穷无尽的新功能要添加进来
+            创建一个新的分支 feature分支开发，
+            $ git checkout -b feature
+            $ vi abc.txt 
+            $ git add . 
+            $ git commit -m 'add abc.txt'
+            $ git checkout master
+            切回到分支准备合并，上级告知新功能取消
+            $ git branch -d feature     销毁失败，Git友情提醒,feature分支还没有被合并，如果删除将丢失掉修改，如果要强行删除，需要使用大写的 -D 参数
+            error: The branch 'feature' is not fully merged.
+            If you are sure you want to delete it, run 'git branch -D feature'.
+
+            $ git branch -D feature
+
+            END.
+
         </pre>
 
     </div>
