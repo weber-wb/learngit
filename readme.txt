@@ -9,3 +9,7 @@ fast forward 合并就看不出来曾经合并过
 git 分支管理策略
 
 git is free software change is git is a fress ware...
+Bug 分支处理	git 提供 stash功能
+
+git dev branch content.
+
