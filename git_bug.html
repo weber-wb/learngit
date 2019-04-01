@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>git-bug分支</title>
+</head>
+<body>
+    
+    <div id="my">
+
+        <h2>git bug分支</h2>
+        <pre>
+            软件开发中，bug就像是家常便饭一样，在Git中，由于分支是如此的强大，所以，每个bug都可以通过一个临时分支来修复，修复后合并分支，然后删除临时分支
+            当你接到一个修复一个代号为110的bug任务时，很自然的想到创建一个分支 issue-110 来修复它，但是 ，在当前分支 dev 上进行的工作还没有提交：
+
+            $ git status    进行查看 
+            预计完成还需要 1天 ， 然而必须 2小时 内修复该bug ，怎么做？
+            
+            幸好 Git 中还提供了一个 stash 功能，可以把当前工作现场 "储藏" 起来，等以后恢复现场继续工作：
+            $ git stash
+            $ git status 查看工作区就是干净的 （除非没有被git管理的文件）
+
+            首先确定在哪个分支上修复 bug ，假定在master，就从master上创建临时分支：
+            $ git checkout master
+            $ git checkout -b issue-110
+            $ vi readme.txt         ----  修改文本进行保存退出  :wq
+            $ git add readme.txt
+            $ git commit -m 'fix bug 110'
+            修复完成切换到master
+            $ git checkout master
+            $ git merge --no-ff -m 'merge bug fix 110' issue-110
+            完成合并后删除 临时分支 issue-110
+            $ git branch -d issue-110
+
+            修复完成切回到 dev 分支 继续开发
+            $ git checkout dev
+            $ git status    可以查看工作区是干净的，那刚才的工作现场存到哪了？  可以用 $ git stash list 命令查看
+            $ git stash list    工作现场还在，Git把stash内容存在某个地方，如何恢复有两个方法：
+                方法一：
+                    先用 git stash list 命令查看，复制指定的stash，但是恢复后，stash内容并不删除，可以 git stash list 查看 ，需要删除用 git stash drop 命令
+                    $ git stash apply stash@{0}
+                    $ git stash drop
+                方法二：
+                    $ git stash pop     恢复的同时把stash内容也删除了，可以用 git stash list 命令查看
+
+            
+            小结：
+            修复bug时，我们会通过创建新的bug分支进行修复，然后合并，最后删除
+            当手头工作没有完成时，先把工作现场git stash一下，然后去修复bug，修复后，再git stash pop，回到工作现场
+
+        </pre>
+
+    </div>
+    
+</body>
+</html>
