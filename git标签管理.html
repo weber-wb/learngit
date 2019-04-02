@@ -41,13 +41,56 @@
                 命令git tag -a <tagname> -m "blablabla..."可以指定标签信息
                 命令git tag可以查看所有标签
 
+            添加标签
+            $ git tag v1.0
+
+            添加带有说明的标签，默认为HEAD 
+            $ git tag -a v1.0.2 -m '描述标签信息'
+
+            添加对应的commit id 打上标签
+            $ git tag -a v1.0.3 -m '描述标签信息' <commit id>       -------   -m 可以指定标签信息
+
+            删除标签 
+            $ git tag -d v1.0
+            
+            推送所有标签到远程
+            $ git push --tags
+
+            删除远程标签：
+            $ git push origin :refs/tags/v1.0.1
 
         -->
     </pre>
 
+    <h2>操作标签</h2>
+    <pre>
+        在Git中，标签如果打错了也可以删除
+        <!-- 
+            $ git tag -d v1.0.1
+            因为创建的标签都存储在本地，不会自动推送到远程，所以，打错的标签可以在本地安全删除
+
+            如果要推送某个标签到远程，可以执行命令 git push origin <tagname>    Eg: $ git push origin v1.0.1
+            或者一次性推送全部标签到远程， 可以执行命令 git push origin --tags
+
+            如果标签已经推送到远程，要删除远程标签就麻烦一点，先从本地删除：
+                $ git tag -d v1.0.1
+            然后，从远程删除，删除命令也是用 push , 格式如下：
+                $ git push origin :refs/tags/v1.0.1
+
+            查看远程库标签是否删除，可登陆GitHub查看
+
+            小结：
+                命令git push origin <tagname>可以推送一个本地标签
+                命令git push origin --tags可以推送全部未推送过的本地标签
+                命令git tag -d <tagname>可以删除一个本地标签
+                命令git push origin :refs/tags/<tagname>可以删除一个远程标签。
+
+         -->
+    </pre>
+
     <script>
         window.onload = function(){
-
+            
         }
     </script>
 

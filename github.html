@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>github使用</title>
+</head>
+<body>
+    
+    <div id="my">
+
+        <h2>使用 GitHub </h2>
+
+        <pre>
+
+            如何参与一个开源项目呢？比如人气极高的bootstrap项目，这是一个非常强大的CSS框架
+            你可以访问它的项目主页https://github.com/twbs/bootstrap，点“Fork”就在自己的账号下克隆了一个bootstrap仓库，然后，从自己的账号下clone：
+                git clone git@github.com:weber-wb/bootstrap.git
+            一定要从自己的账号下 clone 仓库，这样你才能推送修改。
+            如果从bootstrap作者下的仓库地址 clone ，因为你没有权限，你将不能推送修改。
+
+            如果你想修复一下bootstrap的一个bug，或者新增一个功能，立刻就可以开始干活了，干完后可以推送到自己的仓库
+            如果你希望bootstrap的官方库能接受你的修改，你就可以在GitHub上 发起一个 pull request，当然对方是否接受你的 pull request 就不一定了
+
+            小结：
+                在 GitHub 上，可以任意 Fork 开源仓库
+                自己拥有Fork后的仓库的读写权限
+                可以推送 pull request 给官方仓库贡献代码
+
+        </pre>
+
+        <h2>使用码云</h2>
+        <pre>
+            码云地址： https://gitee.com/
+
+            在使用 GitHub时，国内用户经常遇到的问题是访问速度太慢，有时候还会出现无法连接的情况
+            如果我们希望体验 git 飞一般的速度，可以使用国内的git托管服务  —— 码云 （gitee.com）
+
+            和github相比，码云也提供免费的 git 仓库，此外，还集成了代码质量检测、项目演示等功能。对于团队开发， 码云还提供了了项目管理，代码管理，文档管理的服务， 5人以下小团队免费
+
+            使用码云 和 使用github 类似，在码云上注册账号并登陆 ，需要上传自己的 SSH 公钥
+                选择右上角用户头像 -> 菜单 "设置"  -> 选择 "SSH公钥"  -> 填写一个便于识别的标题，然后把用户主目录下的 .ssh/id_rsa.pub文件的内容粘贴进去  -> 点击确定即可看到添加的 Key
+
+            若本地已有一个Git仓库，如何关联到码云的远程库上，项目名称最好和本地保持一致：
+            首先我们在本地库使用命令：
+                $ git remote add origin git@gitee.com:weber-wb/Travel.git
+            之后就可以正常地用 git push 和 git pull 推送了
+
+            如果在使用 git remote add 时报错了
+                $ git remote add origin git@gitee.com:weber-wb/Travel.git
+                fatal: remote origin already exists.
+            这说明在本地库已经关联了一个名叫 origin 的远程库， 此时， 可以先用 git remote -v 查看远程库信息：
+                $ git remote -v 
+                origin  git@github.com:weber-wb/learngit.git (fetch)
+                origin  git@github.com:weber-wb/learngit.git (push)
+            可以看到，本地库已经关联了origin 的远程库，并且该远程库指向了github
+            我们可以删除已有的 github 远程库
+                $ git remote rm origin
+
+            再关联码云的远程库 （注意路径中需要填写正确的用户名）
+            此时，再查看远程库信息：
+                $ git remote -v
+                origin  git@gitee.com:weber-wb/learngit.git (fetch)
+                origin  git@gitee.com:weber-wb/learngit.git (push)
+            
+            使用多个远程库时，我们要注意，git给远程库起的默认名称是 origin ，如果有多个远程库，我们需要不同的名称来标识不同的远程库
+
+            首先我们先删除已关联名为 origin 的远程库：                
+                $ git remote rm origin
+
+                关联 github 远程库
+                $ git remote add github git@github.com:weber-wb/learngit.git 
+                注意：远程库的名称叫 github ，不叫 origin
+
+                接着关联 码云的远程库
+                $ git remote add gitee git@gitee.com:weber-wb/learngit.git
+                同样注意：远程库的名称叫 gitee ， 不叫 origin
+
+            现在用 git remote -v 查看远程库信息，可以看到两个远程库：
+                $ git remote -v
+
+                github git@github.com:weber-wb/learngit.git (fetch)
+                github git@github.com:weber-wb/learngit.git (push)
+
+                gitee git@gitee.com:weber-wb/learngit.git (fetch)
+                gitee git@gitee.com:weber-wb/learngit.git (push)
+            
+            如果要推送到github：
+                $ git push github master
+            如果要推送到码云：
+                $ git push gitee master
+
+            码云同样提供了 pull request 功能 ， 任意fork开源仓库 ，自己拥有fork后的仓库读取权限，可以推送 pull request 给官方仓库贡献代码
+
+            忽略某些文件时候，需要编写 .gitignore 
+                在windows的童鞋注意：如果你在资源管理器里新建一个 .gitignore 文件，它会非常弱智的提示你请输入 文件名 ，但是在文本编辑器里保存或者另存为就可以把文件保存为 .gitignore 
+
+                有时候你想添加一个文件到git，发现添加不了 ，原因是这个文件被 .gitignore 忽略了
+                如果确定想要添加这个文件 ，可以用 -f 强制添加到文件：
+                    $ git add -f abc.class
+                或者你发现可能是 .gitignore 写的有问题，需要找出来到底是哪个规则写错了， 可以用下面这个命令检查：
+                    $ git check-ignore
+                git会告诉我们，.gitignore 的第几行规则忽略了该文件，我们就可知道应该修订哪个规则
+
+            .gitignore文件本身是要放在版本库里的，并且可以对 .gitignore 做版本管理
+
+        </pre>
+
+
+    </div>
+
+</body>
+</html>
