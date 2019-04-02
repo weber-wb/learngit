@@ -43,6 +43,24 @@
             // 在本地生成一个公钥,使用命令如下:
             //     ssh-keygen -t rsa        ssh-keygen -t rsa -C '519316185@qq.com'
             //     设置里面添加ssh;
+
+            /* 
+                配置别名：
+                    $ git config --global alias.ss status
+                    $ git ss   ===    git status
+
+                加上 --global 是针对当前用户起作用的，如果不加，那就只是针对当前的仓库起作用
+                --global 参数是全局参数，也就是这些命令在这台电脑的所有git仓库下都有用。
+
+                配置文件放在哪里？每个仓库的 Git 配置文件都放在 .git/config 文件中
+                别名就在：
+                    [alias]
+                        ...
+                
+                要删除别名，直接把对应的行删除就可以了
+                配置别名也可以直接修改这个文件，如果改错了，可以删掉文件重新通过命令配置。
+
+            */
         }
     </script>
 </body>
