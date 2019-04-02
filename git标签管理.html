@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>git 标签管理</title>
+</head>
+<body>
+    
+    <h2>创建标签</h2>
+    <pre>
+        在Git中打标签非常简单，首先，切换打需要打标签的分支上
+        <!-- 
+            $ git branch        查看分支
+            $ git checkout dev      切换到 dev 分支
+
+            $ git tag v1.0      敲命令 git tag <name> 就可以打一个新的标签
+
+            $ git tag   可以查看所有标签
+            
+            默认标签是打在最新提交的 commit 上的， 有的时候如果忘记打了标签，怎么办？
+            方法是找到历史提交的 commit id ，然后打上就可以了
+
+            先查看提交日志
+            $ git log --pretty=oneline --abbrev-commit 
+            比方说要对 add files 这次提交打上标签，它对应的 commit id 是 a8980e8 :
+            $ git tag v0.9 a8980e8
+
+            可以用 git tag 查看标签，看到已经打上的标签 v0.9
+            注意，标签不是按时间顺序列出，而是按字母排序的，用 git show <tag name> 查看标签信息
+            $ git show v0.9
+
+            还可以创建带有说明的标签 ，用 -a 参数指定标签名， -m 参数指定说明文字
+            $ git tag -a v1.0.1 -m '描述标签说明信息' a8980e8
+
+            注意：标签总是和某个commit挂钩，如果这个commit既出现在master分支，也出现在dev分支，那么这两个分支上都可以看到这个标签
+
+            小结：
+                命令git tag <tagname>用于新建一个标签，默认为HEAD，也可以指定一个commit id
+                命令git tag -a <tagname> -m "blablabla..."可以指定标签信息
+                命令git tag可以查看所有标签
+
+
+        -->
+    </pre>
+
+    <script>
+        window.onload = function(){
+
+        }
+    </script>
+
+</body>
+</html>
