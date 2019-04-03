@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JavaScript 字符串</title>
+</head>
+<body>
+
+    <script>
+        window.onload = function () {
+
+            // 'use strict';    // 严格模式
+
+            // ES6 新增了一种多行字符串的表示方法，用反引号 `...` 表示：
+            let a = `
+                这是一个
+                多行的
+                文本`;
+            
+            // 模板字符串
+            // 多个字符串连接起来用 + 号连接
+            var name = 'weber';
+            var age = 20;
+            var message = '你好，'+name+'你今年'+age+'岁了！';
+            console.log(message);
+            // ES6是否支持模板字符串
+            // var message = `你好，${name}，你今年${age}岁了！`;
+
+            // 操作字符串
+            // 字符串常见操作
+            var str = 'hello, world!';
+            console.log(str.length);     //13
+            console.log(str[0]);        //h     获取字符串某个指定位置的字符，使用类似array的下标操作，索引号从0开始
+
+            // 需要特别注意的是，字符串是不可变的，如果对某个索引的字符串赋值，不会有任何错误，但是也没有任何效果
+            var s1 = 'Test';
+            s1[0] = 'p';
+            console.log(s1);    //Test
+
+            // javascript为字符串提供了一些常用的方法，注意这些方法不会改变原有字符串的内容，而是返回一个新的字符串
+            // toUpperCase()    把一个字符串全部变为大写
+            // toLowerCase()    把一个字符串全部变为小写
+
+            // indexOf()    会搜索指定字符串出现的位置  从0开始
+            var s2 = 'hello world';
+            // console.log(s2.indexOf('h'));   //0
+            // console.log(s2.indexOf('o'));   //4
+            // console.log(s2.indexOf('b'));   //-1
+
+            // substring()  返回指定索引区间的字符串    ***与slice() 和 substr() 方法不同的是， substring()不接受负的参数
+            var s3 = 'hello, world!';
+            console.log(s3.substring(0,5));     //从索引0开始到5(不包括5) ，返回hello
+            console.log(s3.substring(7));       //从索引7开始到结束，返回 world!
+
+            // substr() 方法可在字符串中抽取从 start 下标开始的指定数目的字符   从0开始
+            // substr(start,length)
+            // start：必须，要抽取的子串的起始下标，必须是数值。如果是负数，那么该参数声明从字符串的尾部开始算起的位置，也就是说，-1 指字符串中最后一个字符
+            // length: 可选。子串中的字符数。必须是数值，如果省略返回从开始位置到结束位置
+            var s4 = 'Hello,world!';
+            // console.log(s4.substr(3));           //  lo,world!
+            // console.log(s4.substr(3,5));         //  lo,wo   从3开始，截取5个字符串
+            // console.log(s4.substr(-5));          //  orld!    
+            // console.log(s4.substr(-1,5));        //  !    从选取的位置开始，不够返回需要的数值个数，即返回已有的字符串
+            // console.log(s4.substr(-5,3));        //  orl   
+
+            // slice() 方法可提取字符串的某个部分，并以新的字符串返回被提取的部分
+            // slice(start,end)  一个新的字符串，包括字符串 string Object 从start开始(包含start) 到 end结束(不包含end)
+            // start：要抽取的片段开始下标。  如果是负数， -1 指字符串中最后一个字符
+            var s5 = 'Hello happy world!';
+            console.log(s5.slice(6,11));        //  happy
+            console.log(s5.slice(-10,8));       //  无交集为空
+            // console.log(s5.slice(-3,-1));       //  ld
+            // console.log(s5.slice(-10,10));       //  pp     从-10开始（包含-10） 到 10结束（不含10）
+
+            // split()  方法把一个字符串分割成字符串数组
+            // stringObject.split(separator,howmany)
+            // separator：必需。字符串或正则表达式，从该参数指定的位置开始分割
+            // howmany：可选。该参数可指定返回的数组最大长度。如果设置了该参数，返回的子串不会多个这个参数指定的数组，如果没有设置，整个字符串都会被分割，不考虑长度
+            var s6 = 'how are you doing today?'
+            console.log(s6.split(' '));     //  ["how", "are", "you", "doing", "today?"]
+            console.log(s6.split(' ', 3));  //  ["how", "are", "you"]
+            
+            
+
+        }    
+    </script>
+    
+</body>
+</html>

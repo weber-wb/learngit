@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JavaScript condition statement 条件语句</title>
+</head>
+<body>
+
+    <script>
+        window.onload = function () {
+
+            // 条件判断
+            // 请注意 if...else... 语句的执行特点是二选一 ，在多个 if...else...语句中，如果某个条件成立，则后续就不再继续判断了
+
+            // JavaScript 把 null, undefined, 0, NaN, 空字符串'' 视为 false , 其他值一概视为 true 
+
+            // JavaScript 三种弹窗介绍      alert , confirm , prompt
+            // alert() 提示框
+            // alert('给程序媛请安~~~');
+            
+            // confirm(option) '确定' 或 '取消'  消息框
+            // 用户点击 '确定' 或 '取消' 按钮时，弹窗会返回一个布尔值。确认返回true,取消返回false,由此可以判断用户的操作。
+            // var isbeauty = confirm("亲爱的程序媛，you are so beautiful？");
+            // if(isbeauty){
+            //     alert('返回为true');
+            // }else{
+            //     alert('返回为false');
+            // }
+            
+            // prompt(text,defaultText)   输入框
+            // text : 可选。要在对话框中显示的纯文本
+            // defaultText : 可选。默认的输入文本
+            var Response1 = prompt("程序媛，你喜欢我吗？", '喜欢');
+            console.log(Response1);     // 如果用户单击提示框确认按钮，返回值是输入的字符串 ， 如果用户单击提示框取消按钮，则返回 null
+            // 用户点击 '确定' 或 '取消' 按钮时，弹窗会返回一个布尔值。确认返回true, 取消返回false, 由此可以判断用户的操作。若返回值为空字符串，按钮点击都会进入false条件
+            // if(Response1){
+            //     alert('这是真的吗');
+            // }else{
+            //     alert('请输入你的答案');
+            // }
+
+
+            // JavaScript 的循环有两种
+            // 一种就是 for 循环 ， 通过初始条件，结束条件和递增条件来循环执行语句块;
+            var d = 0;
+            var i;
+            for(i=1; i<=100; i++){
+                d += i;
+            }
+            console.log(d);     // 5050
+            // 分析for循环的控制条件
+            /* 
+                i=1;  这是初始条件，将变量 i 置为 1
+                i<=100;  这是结束条件，满足时就继续循环，不满足就退出循环
+                i++;  这是每次循环后的递增条件，由于每次循环后变量 i 都会加上 1, 因此在若干循环后不满足判断条件 i<=100 而循环退出
+            */
+
+            // for 循环最常用的地方就是利用索引来遍历数组：
+            // for 循环的3个条件都是可以省略的，如果没有退出循环的判断条件，就必须使用 break 语句退出循环，否则就是死循环
+            var n = 0;
+            for(;;){
+                if(n > 100){
+                    break;      // 通过 if 判断来退出循环
+                }
+                n++
+            }
+            console.log(n);     // 101
+            
+            // for循环的一个变体是 for ... in 循环，它可以把一个对象的所有属性一次循环出来：
+            var o = {
+                name: 'Jack',
+                age: 20,
+                city: 'HangZhou'
+            };
+            
+            for(var key in o){
+                console.log(key);           // 得到对象的 键   'name','age','city'
+                // console.log(o[key]);     // 得到对象的 对应键的值    'Jack', '20', 'HangZhou'
+            };
+
+            // 判断 要过滤掉对象继承的属性，用 hasOwnProperty() 来实现
+            for(var key in o){
+                if(o.hasOwnProperty(key)){
+                    console.log(key);       // 'name','age','city'
+                }
+            }
+
+            // 由于Array也是对象，而它的每个数组的索引被视为对象的属性，因此 for...in 循环可以直接循环出 Array 的索引
+            var arr = ['A','B','C'];
+            for(var i in arr){
+                console.log(i);         // '0','1','2'
+                console.log(arr[i]);    // 'A','B','C'
+            }
+            // 请注意，for...in 对 Array的循环得到的是 String 而不是 Number
+
+
+            // while循环只有一个判断条件，条件满足，就不断循环，条件不满足时则退出循环。100以内的所有奇数之和：
+            var x = 0;
+            var n1 = 99;
+            while ( n1 > 0 ) {
+                x += n1;
+                n1 -= 2
+            };
+            console.log(x);     // 2500
+            // 在循环内部变量 n1 不断自减，直到变为-1时，不再满足while条件，循环退出。
+
+            
+            // do {...} while() 循环， 它和 while 循环的 唯一区别在于 ，不是在每次循环开始的时候判断条件，而是在每次循环完成的时候判断条件：
+            var n2 = 0;
+            do{
+                n2+=1
+            } while (n2>100);
+            console.log( n2 );      // 1
+            // 请注意， 用 do {...} while() 循环要小心，循环体至少会执行1次， 而 for 和 while 循环则可能一次都不执行
+            
+            // 在编写循环代码时，务必小心编写  初始条件  和  判断条件，尤其是边界值。特别注意i < 100和i <= 100是不同的判断逻辑。
+
+            
+            
+
+
+
+
+        }
+    </script>
+    
+</body>
+</html>

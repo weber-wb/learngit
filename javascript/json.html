@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JavaScript json 对象</title>
+</head>
+<body>
+
+    <script>
+        window.onload = function () {
+
+            // javascript 的对象是一种无序的集合数据类型，它由若干键值对组成
+            // JavaScript 用一个 {...} 表示一个对象， 键值对以 xxx:xxx 形式声明，用 , 号隔开，最后一个键值末尾后不要加 , 号， 如果加了有的浏览器会报错(如低版本的IE)
+
+            var xiaoming = {
+                name: '小明',
+                age: 20,
+                birth: 1993,
+                school: 'No.1 Middle school'
+            };
+            xiaoming.name;      // 小明
+            xiaoming.age;       // 20            
+            // 如何获取小明的属性，访问属性是通过 . 操作符完成的。但是这要求属性名必须是一个有效的变量名，如属性名包含特殊字符，就必须用 '' 括起来：
+
+            var xiaohong = {
+                name: '小红',
+                'middle-school': 'No.1 Middle school'       //现在一般都是驼峰命名法，"-"：一来是特殊字符，二来它还能占位   middleSchool    xiaohong.middleScholl   --  'No.1 Middle school'
+            };
+            // xiaohong的属性名 middle-school 不是一个有效的变量名，就需要用 '' 括起来, 访问这个属性也无法使用 . 操作符， 必须用 ['XXX']来访问
+            xiaohong['middle-school'];     //  No.1 Middle school
+            xiaohong['name'];      //  xiaohong['name']  ===  xiahong.name      ===>>> 小红
+
+            // 如果访问一个不存在的属性会返回什么，在JavaScript中规定，访问不存在的属性不报错，返回 undefined
+            xiaohong.age;       // undefined
+
+            // 由于JavaScript的对象是动态类型，你可以自由地给一个对象添加或删除属性：
+            var xiaobai = {
+                name: '小白'
+            };
+            xiaobai.age;            // undefined
+            xiaobai.age = 18;       // 新增一个 age 属性
+            xiaobai.age;            // 18
+            delete xiaobai.age;     // 删除 age 属性
+            delete xiaobai['name'];     // 删除 name 属性       返回 true
+            xiaobai.name;       // undefined
+            delete xiaobai.school;      // 删除一个不存在的school属性也不会报错，竟然也是返回 true
+
+            // 如果要检测 xiaoming 是否拥有某一属性，可以用 in 操作符：
+            'name' in xiaoming;     // true
+            'nothing' in xiaoming;  // false
+
+            // 不过要小心， 如果 in 判断一个属性存在，这个属性不一定是 xiaoming 的， 它可能是 xiaoming 继承得到的
+            'toString' in xiaoming;     // true
+            // 因为 toString 定义在 Object 对象中，而所有对象最终都会在原型链上指向 Object ， 所以 xiaoming 也拥有 toString 属性
+            // 要判断一个属性是否是 xiaoming 自身拥有的，而不是继承的得到的，可以用 hasOwnProperty() 方法：
+            xiaoming.hasOwnProperty('name');        // true
+            xiaoming.hasOwnProperty('toString');    // false
+
+
+
+
+
+
+        }    
+    </script>
+    
+</body>
+</html>
