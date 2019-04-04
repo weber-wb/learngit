@@ -112,13 +112,26 @@
             do{
                 n2+=1
             } while (n2>100);
-            console.log( n2 );      // 1
+            console.log( n2 );      // 1 循环体至少会执行一次
             // 请注意， 用 do {...} while() 循环要小心，循环体至少会执行1次， 而 for 和 while 循环则可能一次都不执行
             
             // 在编写循环代码时，务必小心编写  初始条件  和  判断条件，尤其是边界值。特别注意i < 100和i <= 100是不同的判断逻辑。
 
             
-            
+            (function(){
+                'use strict';
+                // 请利用循环遍历数组中的每个名字，并显示Hello, xxx!：
+                var arr = ['Bart', 'Lisa', 'Adam'];
+
+                for(var i=0; i<arr.length; i++){
+                    console.log(`Hello,${arr[i]}`);
+                };
+                var l = 0;
+                while (l<arr.length) {
+                    console.log(`Hello,${arr[l]}`);
+                    l++;
+                };
+            })();
 
 
 

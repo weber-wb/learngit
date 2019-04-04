@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JavaScript Map Set</title>
+</head>
+<body>
+
+    <script>
+        window.onload = function () {
+
+            // JavaScript 的默认对象是 {}  可以视为其他语言中的 Map 或 Dictionary 的数据结构 , 即一组键值对
+            // 但是JavaScript的对象有个小问题，就是键必须是字符串。但实际上 Number 或者其他数据类型作为键也是非常合理的
+            // 为了解决这个问题, 最新的ES6规范引入了新的数据类型 Map, 测试浏览器是否支持 ES6 规范, 执行以下代码看是否报错：
+            // 'use strict';
+            // var m = new Map();
+            // var s = new Set();
+            // console.log('你的浏览器支持Map和Set!');
+
+            // Map 是一组键值对的结构，具有极快的查找速度。
+            var m1 = new Map([ ['Michael',95],['Bob',80],['Tracy',75] ]);
+            m1.get('Michael');       // 95
+            // 获取长度
+            m1.size;    //  3
+
+            // 初始化 Map 需要一个二维数组，或者直接初始化一个空的 Map , Map具有以下方法：
+            var m = new Map();
+            m.set('weber',98);      //添加新的 key-value
+            m;      //  {"weber" => 98}
+            m.set('xiaoming',100);
+            m;      //  {"weber" => 98, "xiaoming" => 100}
+            m.has('weber');     // 是否存在key 'weber', 存在返回true, 反之false
+            m.get('xiaoming');  // 100   获取键(key)对应的值(value)
+            m.delete('weber');  // 存在的键(key) 被删除返回 true ,  反之不存在的键(key) 被删除返回false , 并不会报错
+            m.get('weber');     // 删除的键 获取 返回 undefined
+            m.delete('wwwww');  // false
+            // 由于一个key只能对应一个value ， 所以多次对一个key放入value，后面的值会把前面的值冲掉（覆盖）
+            var m2 = new Map();
+            m2.set('xiaoxiao',80);      // {'xiaoxiao' => 80}
+            m2.set('xiaoxiao',100);     // {'xiaoxiao' => 100}
+            m2.get('xiaoxiao');     //  100
+
+
+            // Set 和 Map 类似，也是一组 key 的集合，但不存储value。由于key不能重复，所以在 Set 中，没有重复的 key , 简单的就可以实现数组去重
+            // 要创建一个 Set ，需要提供一个 Array 作为输入，或者直接创建一个空 Set
+            var s1 = new Set();      // 空的 Set
+            var s2 = new Set([1,2,1,2,'2',3]);
+            s2;         // {1, 2, "2", 3}   重复元素在 set 中自动被过滤
+
+            // 通过 add(key) 方法可以添加元素到 set 中，可以重复添加，但不会有效果
+            var s3 = new Set([1,2]);
+            s3.add(3);
+            s3;     // {1,2,3}
+            s3.add(3);      // 继续添加重复的元素
+            s3;     // {1,2,3}  结果还是之前的
+
+            // 通过 delete(key) 方法可以删除元素
+            var s4 = new Set([1,2,3,'3',4]);
+            s4;      // {1,2,3,'3',4}
+            s4.delete(3);
+            s4;     // {1,2,'3',4}
+            
+            // set出来的数组是类数组，最后还是得通过 Array.from() 方法转为真正的数组
+            Array.from(s4);     // [1,2,'3',4]
+            [...s4]         // [1,2,'3',4]
+
+            // 获取set长度
+            s4.size;    // 4
+
+            // Map和Set是ES6标准新增的数据类型，请根据浏览器的支持情况决定是否要使用。
+
+
+
+            // ES6标准引入了新的 iterable 类型 , Array、Map 和 Set 都属于 iterable 类型
+            // 具有 iterable 属性的集合 可以通过 for...of 循环来遍历
+            // 'use strict'
+            // var abc = [1,2,3];
+            // for (const x of abc) {
+            //     console.log(x);     // 1,2,3
+            // };
+            
+            // for...of 循环遍历集合，用法如下：
+            var a = ['A','B','C'];
+            var s = new Set(['S','E','T']);
+            var m = new Map([['M',1],['A',2],['P',3]]);
+
+            for(var x of a){    //遍历Array
+                console.log(x);     // A B C
+            }
+
+            for(var x of s){    //遍历set
+                console.log(x);     // S E T
+            }
+            
+            for(var x of m){    //遍历map
+                console.log(x[0] +' = '+ x[1]);     // M = 1 A = 2 P = 3
+            }
+
+            // for...in 循环由于历史遗留问题，它遍历的实际上是对象的属性名称。一个Array数组实际上也是一个对象，它的每个元素的索引被视为一个属性
+            // 当我们手动给 Array 对象添加了额外的属性， for...in 循环将带来想不到的意外效果
+            var arr1 = ['a','b','c'];
+            arr1.name = 'hello';
+            arr1;               //  ["a", "b", "c", name: "hello"]
+            arr1.length;        // 3  Array 的 length 属性不会发生改变
+            for(var x in arr1){
+                console.log(x);     // 0,1,2,name
+            }
+            // for...of 循环则完全修复了这些问题，它只循环集合本身的元素
+            var arr1 = ['a','b','c'];
+            arr1.name = 'hello';
+            for(var x of arr1){
+                console.log(x);     // a,b,c
+            }
+            // 这就是为什么要引入新的 for...of 循环
+            // 然而,更好的方式是直接使用 iteration 内置的 forEach 方法，它接收一个函数，每次迭代就自动回调函数，以Array为例：
+            var arr2 = ['A','B','C','D'];
+            arr2.forEach(function(element,index,array){
+                // element: 指向当前元素的值
+                // index： 指向当前索引
+                // array： 指向array对象本身
+                console.log('element: ' + element +', index: ' +index, array);
+                // element: A, index: 0 (4) ["A", "B", "C", "D"]
+                // ...
+                // element: D, index: 3 (4) ["A", "B", "C", "D"]
+            });
+
+            // forEach() 方法是 ES5.1标准引入的
+            // Set 与 Array 类似，但 Set 没有索引，因此回调函数的前两个参数都是元素本身
+            var s5 = new Set(['a','b','c','d']);
+            s5.forEach( (element,sameElement,set)=>{
+                console.log('element: ' + element + ' ,sameElement: ' + sameElement, set);
+                // element: a ,sameElement: a Set(4) {"a", "b", "c", "d"}
+                // ...
+                // element: d ,sameElement: d Set(4) {"a", "b", "c", "d"}
+            });
+
+            // Map 的回调函数参数依次为 value , key , map
+            var m5 = new Map([ ['name','weber'],['branch','json'],['xyz',123] ]);
+            m5.forEach(function(value,key,map){
+                console.log('value:'+value+' ,key:'+key, map);     // value:weber ,key:name Map(3) {"name" => "weber", "branch" => "json", "xyz" => 123} ...
+            });
+
+            // 由于JavaScript的函数调用不要求参数一致，因此可以忽略不需要的参数
+
+        }
+    </script>
+    
+</body>
+</html>
