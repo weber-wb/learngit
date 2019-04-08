@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>javascript  高阶函数</title>
+</head>
+<body>
+    
+    <h2>高阶函数</h2>
+    <!-- 
+        
+        map / reduce 
+
+        filter 
+
+        sort
+
+     -->
+
+    
+
+    <script>
+        window.onload = function(){
+
+            // 高阶函数
+            // 高阶函数英文名叫  Higher-order function  , 那什么是高阶函数?
+            // JavaScript的函数其实指向某个变量。既然变量可以指向函数，函数的参数可以接收 变量 ， 那么一个函数就可以接收另一个函数作为参数，这种函数就称为 高阶函数
+            // 例如：
+            function add(x,y,f){
+                    return f(x) + f(y);
+                };
+                add(-5,6,Math.abs);     // 11
+
+                function toStr(a,b,c){
+                    return c(a) + c(b);
+                };
+                function str(a){
+                    return a.toString();
+                };
+                toStr(1,-5,str);    // 1-5
+
+            // map/reduce
+            // 由于 map() 方法定义在 JavaScript 的 Array 中，我们调用 Array 的 map() 方法，传入我们自己的函数，得到一个新的 Array 作为结果
+            
+            function pow(x){
+                return x * x;
+            };
+            var arr = [1,2,3,4,5,6,7,8,9];
+            var results = arr.map(pow);     // [1, 4, 9, 16, 25, 36, 49, 64, 81]
+            // 注意：map()传入的参数是pow，即函数对象本身
+            // 所以，map()作为高阶函数，事实上它把运算规则抽象了
+
+            // 比如把 Array 的所有 数字 转为 字符串， 只需要一行代码即可
+            var arr11 = [1,2,3,4,5,6];
+            arr11.map(String);      //  ["1", "2", "3", "4", "5", "6"]
+
+            // reduce
+            // reduce 的用法， Array 的 reduce() 把一个函数作用在这个 Array 的 [x1,x2,x3,x4] 上 ，这个函数必须接收两个参数,
+            // reduce() 把结果结果和序列的下一个元素累积计算,其效果就是:
+            // [x1,x2,x3,x4].reduce(f) = f(f(f(x1,x2),x3),x4)
+            // 比方说对一个  array 求和，就可以用 reduce 实现
+            var arr12 = [1,2,3,4,5,6];
+            arr12.reduce(function(x,y){
+                return x + y;
+            });     //  21
+
+            // 比方说对一个  array  求积，也可也用reduce  实现
+            var arr13 = [1,2,3,4,5];
+            function product(arrs){
+                return arrs.reduce(function(x,y){
+                    var pdt = parseInt(x) * parseInt(y);
+                    return pdt;
+                })
+            }
+            product(arr13);     // 120
+
+            // 比方说要把 [1,3,5,7,9] 变换成整数 13579 , reduce() 也能派上用场
+            var arr4 = [1,3,5,7,9];
+            arr4.reduce(function(x,y){
+                return x*10+y;
+            });
+            // 再比如讲继续改进一下，字符串 '13579' 改成 Array ，再利用 reduce() 
+            // 不用 JavaScript 内置的 parseInt() 函数
+            function stringFn2(s){
+                return s.split('').map(function(x){     //先转数组，再进行map 高阶函数执行为 number  再执行 reduce() 累乘
+                    return +x;
+                }).reduce(function(x,y){
+                    return x*10+y
+                })
+            };
+
+
+            // 过滤函数
+            // filter 也是一个常用的操作，它用于 Array 某些元素过滤掉 ， 然后返回剩下的元素
+            // 和 map() 类似 ， Array 的 filter() 也接收一个函数， 和 map() 不同的是：
+            // filter() 把传入的函数依次作用于每个元素，然后根据返回值是 true 或 false 决定保留还是丢弃元素
+
+            var arr5 = [1,2,3,4,5,6];
+            var r = arr5.filter(function(x){
+                return x > 4;
+            });
+            console.log(r);     // [5,6]
+            // 可见用 filter() 这个高阶函数，关键在于正确实现一个“筛选”函数。
+
+            // 回调函数
+            // filter() 接收的回调函数，其实也可以有多个参数，通常我们仅适用第一个参数，表示 Array 的某个元素，
+            // 回调函数还可以接收另外两个参数，表示元素的位置 和 数组本身；
+            var arr6 = [1,2,3,4];
+            var r1 = arr6.filter(function(element,index,self){
+                console.log(element);       // 依次打印 1,2,3,4
+                console.log(index);       // 依次打印数组索引 0,1,2,3
+                console.log(self);       // self 就是变量 arr
+            });
+
+            // 利用filter，可以巧妙的去除 array 的重复元素
+            var arr15 = ['apple', 'strawberry', 'banana', 'pear', 'apple', 'orange', 'orange', 'strawberry'];
+            var r5;
+            r5 = arr15.filter(function(element,index,self){  // 根据返回 true false 决定保留或是丢弃元素
+                return self.indexOf(element) === index;
+            });
+            console.log(r5);
+            // 去除重复元素依靠的是 indexOf 总是返回第一个元素的位置，后续的重复元素位置与 indexOf 返回的位置不相等，因此被 filter 过滤掉了
+
+            // 获取 100 以内的质数
+            function get_primes(arr){
+                function isPrimeNumber(x){
+                    if( x === 1){
+                        return false;   // 1 不是素数(质数)，返回false
+                    };
+
+                    // Math.sqrt(x);        //返回一个数的平方根    x 必须是大于0的数，如果 x 小于 0 , 则返回  NaN
+                    // var a=Math.sqrt(0);       // 0
+                    // var b=Math.sqrt(1);       // 11
+                    // var c=Math.sqrt(9);       // 3
+                    // var d=Math.sqrt(0.64);    //  0.8
+                    // var e=Math.sqrt(-9);      // NaN
+
+                    // i 是 2 到 x 开平方根之间的整数
+                    // 如果 x 对 i 取余等于 0 ，则不是素数
+                    for(let i=2; i<=Math.sqrt(x,2); i++){
+                        if( x%i === 0){
+                            return false;
+                        }
+                    };
+                    // 如果上述条件都不满足，则是素数，返回 true
+                    return true;
+                };
+                //用filter()返回新的只含有素数的数组
+                return arr.filter( isPrimeNumber );
+            };
+            var _arr1 = [];
+            for(var i=1; i<100; i++){
+                _arr1.push(i)
+            };
+            var _result1 = get_primes(_arr1);
+            if( _result1.toString() === [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97].toString() ){
+                console.log('测试正确')
+            }else{
+                console.log('测试失败:' + _result1.toString() );
+            }
+            
+
+        }
+    </script>
+</body>
+</html>

@@ -107,35 +107,6 @@
                 // Math.max.call(null, 3,5,4);         // 5
             // 对普通函数调用，我们通常把 this 绑定为 null
 
-
-            // 高阶函数
-            // 高阶函数英文名叫  Higher-order function  , 那什么是高阶函数?
-            // JavaScript的函数其实指向某个变量。既然变量可以指向函数，函数的参数可以接收 变量 ， 那么一个函数就可以接收另一个函数作为参数，这种函数就称为 高阶函数
-            // 例如：
-                function add(x,y,f){
-                    return f(x) + f(y);
-                };
-                add(-5,6,Math.abs);     // 11
-
-                function toStr(a,b,c){
-                    return c(a) + c(b);
-                };
-                function str(a){
-                    return a.toString();
-                };
-                toStr(1,-5,str);    // 1-5
-
-            // map/reduce
-            // 由于 map() 方法定义在 JavaScript 的 Array 中，我们调用 Array 的 map() 方法，传入我们自己的函数，得到一个新的 Array 作为结果
-            
-            function pow(x){
-                return x * x;
-            };
-            var arr = [1,2,3,4,5,6,7,8,9];
-            var results = arr.map(pow);     // [1, 4, 9, 16, 25, 36, 49, 64, 81]
-            // 注意：map()传入的参数是pow，即函数对象本身
-            // 所以，map()作为高阶函数，事实上它把运算规则抽象了
-
         }    
     </script>
     
