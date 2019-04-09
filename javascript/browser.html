@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JavaScript 浏览器对象</title>
+</head>
+<body>
+
+    <div id="my">
+        <ul>
+            <li>标题一</li>
+            <li>标题二</li>
+            <li>标题三</li>
+            <li>标题四</li>
+        </ul>     
+    </div>
+
+    <script>
+    
+        // javascript 可以获取浏览器提供的很多对象，并进行操作
+        // window 对象不但充当全局作用域，而且表示浏览器窗口:
+        window.innerWidth;      // 浏览器窗口的内部宽度
+        window.innerHeight;     // 浏览器窗口的内部高度
+
+        window.outerWidth;      // 浏览器窗口的整个宽度
+        window.outerHeight;     // 浏览器窗口的整个高度
+
+        // navigator 表示浏览器的信息，常用的属性包括：
+        navigator.appName;           // 浏览器名称
+        navigator.appVersion;        // 浏览器版本
+        navigator.language;          // 浏览器设置的语言
+        navigator.platform;          // 操作系统类型
+        navigator.userAgent;         // 浏览器设定的User-Agent字符串
+
+        // screen对象表示屏幕的信息，常用的属性有：
+        screen.width;           // 屏幕宽度，以像素为单位；
+        screen.height;          // 屏幕高度，以像素为单位；
+        screen.colorDepth;      // 返回颜色位数，如8、16、24。
+
+        // location对象表示当前页面的URL信息，一个完整的URL：   http://www.example.com:8080/path/index.html?a=1&b=2#TOP
+        location.protocol;      // 'http'
+        location.host;          // 'www.example.com'
+        location.port;          // '8080'
+        location.pathname;      // '/path/index.html'
+        location.search;        // '?a=1&b=2'
+        location.hash;          // 'TOP'
+        // 加载一个新页面，可以调用 location.assign() , 重新加载当前页面，可以调用 location.reload()
+
+        // document对象表示当前页面。由于HTML在浏览器中以DOM形式表示为树形结构，document对象就是整个DOM树的根节点。
+        document.title;     // JavaScript 浏览器对象
+
+        // 要查找DOM树的某个节点，需要从document对象开始查找。最常用的查找是根据 ID 和 TagName
+        document.getElementById('my');      // 获取id为my的DOM节点
+        document.getElementsByTagName('li');        // 获取一组 li 的DOM节点
+
+    </script>
+    
+</body>
+</html>
