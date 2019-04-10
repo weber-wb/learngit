@@ -1,0 +1,30 @@
+<!doctype>
+<html>
+<head>
+<meta charset='utf-8'></meta>
+<script>
+//data即getPrice中price.src传入的返回结果, 是一个JSON字符串
+function showPrice(data){
+    var p=document.getElementById("test-jsonp");
+    p.innerHTML="当前价格："+
+    data['0000001'].name +': ' + 
+    data['0000001'].price + '；' +
+    data['1399001'].name + ': ' +
+    data['1399001'].price;
+}
+
+//点击"刷新"按钮时, 从'http://api.money.126.net/data/feed/0000001,1399001'请求JSON字符串,并把请求结果传给自定义函数showPrice()
+function getPrice(){    
+    var price=document.createElement('script');
+    var head=document.getElementsByTagName("head")[0];
+    price.src= 'http://api.money.126.net/data/feed/0000001,1399001?callback=showPrice';
+    head.appendChild(price);
+}
+</script>
+</head>
+
+<body>
+<p id="test-jsonp">placehoder</p>
+<button type='button' onclick="getPrice()">刷新</button>
+</body>
+</html>

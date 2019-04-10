@@ -17,6 +17,11 @@
         </ul>     
     </div>
 
+    <div id="previewImg"></div>
+    <form action="" method="post" enctype="multipart/form-data">    
+        <input type="file" id="test-file" name='test'>
+    </form>
+
     <script>
     
         // javascript 可以获取浏览器提供的很多对象，并进行操作
@@ -51,9 +56,148 @@
         // document对象表示当前页面。由于HTML在浏览器中以DOM形式表示为树形结构，document对象就是整个DOM树的根节点。
         document.title;     // JavaScript 浏览器对象
 
-        // 要查找DOM树的某个节点，需要从document对象开始查找。最常用的查找是根据 ID 和 TagName
+        // 要查找DOM树的某个节点，需要从document对象开始查找。最常用的查找是根据 ID 和 TagName , 以及CSS选择器 document.getElementsByClassName('class')
         document.getElementById('my');      // 获取id为my的DOM节点
         document.getElementsByTagName('li');        // 获取一组 li 的DOM节点
+
+        document.cookie;        // 获取当前页面的cookie
+
+        // history 对象保存了浏览器的历史记录，JavaScript可以调用 history 对象的 back() 和 forward() ，相当于用户点击了浏览器的 "后退" 或 "前进" 按钮
+        // 任何情况下，你都不应该使用history这个对象
+
+
+        // DOM
+        // 在操作一个DOM节点前，我们需要通过各种方式先拿到这个DOM节点
+        // var test = document.getElementById('test');
+        // var aLi = document.getElementsByTagName('li');
+        // var aRed = document.getElementsByClassName('red');
+        // var cs = test.children;                  // 获取节点test下的所有直属子节点
+        // var first = test.firstElementChild;      // 获取节点test下的第一个子节点
+        // var last = test.lastElementChild;        // 获取节点test下的最后一个子节点
+
+        // var q1 = document.querySelector('#q1');
+        // var ps = q1.querySelectorAll('div.highlighted > p');    // 通过querySelectorAll 获取 q1 节点内的符合条件的所有节点
+        // 注意：低版本的IE<8不支持querySelector和querySelectorAll。IE8仅有限支持
+
+
+        // 更新DOM
+        // 一种是修改innerHTML属性，这个方式非常强大，不但可以修改一个DOM节点的文本内容，还可以直接通过 HTML 片段修改 DOM 节点内部的子树
+        // 另一种是修改 innerText 或 textContent 属性，这样可以自动对字符串进行 HTML 编码，保证无法设置任何 HTML 标签
+
+        // 插入DOM
+        // 1.如果DOM节点是空的，比如 "<div></div>" ,  那么可以直接使用  innerHTML = "<span>child</span>" 就可以修改DOM节点的内容，相当于插入了新的 DOM 节点
+        // 2.如果DOM节点不是空的，那就不可以用 innerHTML ，不然会覆盖掉原有的所有的子节点 ， 有两个办法可以插入新的节点
+            // appendChild ，把一个子节点添加到父节点的最后一个节点     // parent.appendChild('<span>child</span>')
+            // insertBefore ， 把一个子节点插入到指定的位置             // parentElement.insertBefore(newElement, referenceElement);
+
+        // 删除DOM
+        // 删除一个DOM节点要比插入一个DOM 节点要容易的多，首先获取该节点本身以及它的父节点，然后调用父节点的 removeChild 把自己删掉
+        // 注意在删除后的节点虽然不在文档树中了，但其实它还在内存中，可以随时再次被添加到别的位置
+        // 删除多个节点时，要注意 children 属性时刻的变化
+
+
+        // 操作表单
+            // ...
+            // 隐藏文本，<input type='hidden' /> ，用户不可见，但表单提交时会把隐藏文本发送到服务器
+
+            // 获取一个 input 节点的引用，就可以直接调用 value 获得对应用户输入值：
+            // <input type="text" id="email" />
+            // document.getElementById('email').value;      // 获取用户输入的值
+            // 这种方式可以适用于 text , password , hidden , select 
+            // 对于复选框 checkbox 和 单选框 radio , value 属性返回的永远是 HTML 预设的值 , 而我们需要获得实际上是用户是否勾选 , 所以用 checked 判断, 返回 true 或 false
+
+            // HTML5 新增了大量标准控件, 常用的包括 date, dateTime, dateTime-local, color等, 它们都使用 <input/> 标签
+            // 不支持HTML5的浏览器无法识别新的控件，会把它们当做 type="text" 来显示
+
+            // 提交表单
+                // 方法1：  通过 <form> 元素的 submit() 方法提交一个表单 , 响应一个 button 的 click 事件处理
+                // 
+                // <form id="test-form">
+                //     <input type="text" name="test">
+                //     <button type="button" onclick="doSubmitForm()">Submit</button>
+                // </form>
+
+                // function doSubmitForm(){
+                //     var formEle = document.getElementById('test-form');
+                //     formEle.submit();
+                // };
+                // 这种方式的缺点是扰乱了浏览器对form的正常提交。浏览器默认点击<button type="submit">时提交表单，或者用户在最后一个输入框按回车键
+                
+
+                // 方法2：  响应 <form> 本身的 onsubmit 事件, 在提交 form 时作修改:
+                // 
+                // <form id="test-form" onsubmit="return checkForm()">
+                //     <input type="text" name="test">
+                //     <button type="submit">Submit</button>
+                // </form>
+
+                // function checkForm(){
+                //     var formEle = document.getElementById('test-form');
+                //     // 可以在此修改form的input...
+                //     // 继续下一步
+                //     return true;
+                // }
+                // 注意要return true来告诉浏览器继续提交，如果return false，浏览器将不会继续提交form，这种情况通常对应用户输入有误，提示用户错误信息后终止提交form。
+
+                // 有时候用户输入用户名和密码时，安全考虑提交表单时不传输明文口令，而是MD5, 普通JavaScript开发人员会直接修改 input
+                // 例如：   pwd.value = toMD5(pwd.value);   // 做法看上去没什么问题，但是在表单提交时候 口令框会从几个*变成32个* （因为MD5有32个字符）
+                // 一般的做法是利用 隐藏域 , <input type="hidden">
+                // 没有 name 属性的 <input> 的数据不会被提交
+
+            // 操作文件
+                // 在HTML表单中，可以上传文件的唯一控件就是 <input type="file">
+                // 注意，当一个表单中包含 <input type="file">时，表单的 enctype 必须指定 multipart/form-data, method 必须指定为 post , 浏览器才能正确编码并以 multipart/form-data 格式发送表单的数据
+
+            // File API
+                // 由于JavaScript对用户上传的文件操作非常有限，尤其是无法读取文件的内容，使得很多需要操作文件的网页不得不使用 Flash 这样第三方插件来实现
+                // 随着 HTML5 普及，新增的 File API 允许 JavaScript 读取文件内容，获得更多的文件信息
+                // HTML5的 File API 提供了 File 和 FileReader 两个主要对象，可以获取文件信息并读取文件
+
+                (function(){
+                    var testFile = document.getElementById('test-file'),
+                        previewImg = document.getElementById('previewImg');
+
+                    testFile.addEventListener('change',function(){
+                        // 获取File引用
+                        var file = testFile.files[0];
+                        // console.log(file);
+
+                        if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif') {
+                            alert('不是有效的图片文件!');
+                            return;
+                        }
+
+                        // 读取文件
+                        var reader = new FileReader();
+                        reader.onload = function(e){
+                            var data = e.target.result;     // 'data:image/jpeg;base64,/9j/4AAQSk...(base64编码)...' 
+                            previewImg.style.width = '200px';
+                            previewImg.style.height = '200px';
+                            previewImg.style.backgroundImage = 'url('+ data +')';
+                            previewImg.style.backgroundSize = 'cover';
+
+                            console.log(data);
+                        }
+
+                        // 以DataURL的形式读取文件:
+                        reader.readAsDataURL(file);
+
+                    })
+                })();
+
+            // 回调
+                // JavaScript的一个重要特性就是单线程模式，在JavaScript中，浏览器的JavaScript执行引擎在执行JavaScript代码时，总是以单线程模式执行
+                // 也就是说，任何时候，JavaScript代码都不可能同时有多余1个线程在执行
+
+                // 在JavaScript中，执行多任务实际上都是异步调用，比如上面的代码
+                    // reader.readAsDataURL(file);
+
+                // 就会发起一个异步操作来读取文件内容。因为是异步操作，所以我们在JavaScript代码中就不知道什么时候操作结束，因此需要先设置一个回调函数：
+                    // reader.onload = function(e){
+                    //     当文件读取完成后，自动调用此函数
+                    // }
+                // 当文件读取完成后，JavaScript引擎自动调用我们设置的回调函数。
+
 
     </script>
     

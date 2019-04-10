@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JavaScript AJAX</title>
+</head>
+<body>
+
+    <div id="my">
+
+        <input type="textarea" id="textarea">
+
+        <p id="test-json"></p>
+        <button type="button" onclick="getPrice();">刷新</button>
+
+    </div>
+    <script>
+        
+        // AJAX
+        // AJAX 不是 JavaScript 的规范，它只是一个哥们发明的缩写： Asynchronous JavaScript and XML , 意思就是用 JavaScript 执行异步网络请求
+
+        // Web的运作原理： 一次 HTTP 请求对应一个页面
+
+        // 用JavaScript写一个完整的 AJAX 代码并不复杂，但是需要注意： AJAX请求是异步执行的，也就是说，要通过回调函数获得响应
+        // 在现代浏览器上写 AJAX 主要依靠 XMLHttpRequest 对象：
+
+        (function(){
+            'use strict';
+            function success(test){
+                var textarea = document.getElementById('testarea');
+                textarea.value = test;
+            };
+
+            function fail(code){
+                var textarea = document.getElementById('testarea');
+                textarea.value = 'Error code: ' + code;
+            }
+
+            // 对于低版本的IE,需要换一个 ActiveXObject 对象：
+            var request;
+            request = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+
+            request.onreadystatechange = function(){    // 状态发生变化时候，函数被回调
+                if(request.readyState === 4){       // 成功完成
+                    // 判断响应结果
+                    if(request.status === 200){
+                        // 成功，通过responseText拿到响应的文本:
+                        return success(request.responseText);
+                    }else{
+                        // 失败，根据响应码判断失败原因:
+                        return fail(request.status);
+                    }
+                }else{
+                    //  HTTP 请求还在继续...
+                }
+            };
+
+            // 发送请求：
+            request.open( 'GET', 'api/info.html' );
+            request.send();            
+        });
+
+        // 创建了 XMLHttpRequest 对象后，要先设置 onreadystatechange 的回调函数，在回调函数中，通常我们只需通过readyState === 4判断请求是否完成，如果已完成，再根据status === 200判断是否是一个成功的响应。
+        // XMLHttpRequest对象的open()方法有3个参数，第一个参数指定是GET还是POST，第二个参数指定URL地址，第三个参数指定是否使用异步，默认是true，所以不用写
+        // 最后调用send()方法才真正发送请求 ， GET 请求不需要参数， POST 请求需要把body部分字符串或者 FormData 对象传进去
+
+
+        // 安全限制
+            // 1. 通过flash插件发送 HTTP 请求，这种方式可以绕过浏览器的安全限制，但必须安装flash ， 并且跟flash交互，不过flash用起来很麻烦，而且现在用得也越来越少了
+            // 2. 通过同源域名下架设一个代理服务来转发，JavaScript负责把请求发送到代理服务器：
+                //  '/proxy?url=http://www.sina.com.cn'
+            // 3. 通过 JSONP , 它有个限制，只能用 GET 请求，并且要求返回 JavaScript。这种方式跨域实际上是利用了浏览器允许跨域引用JavaScript资源
+                // JSONP通常以函数调用的形式返回，例如：
+                // 首先我们需要在页面中准备好回调函数：
+                    function refreshPrice(data){
+                        var testJson = document.getElementById('test-json');
+                        testJson.innerHTML = `当前价格：${data['0000001'].name} : ${data['0000001'].price}
+                                                       ${data['1399001'].name} : ${data['1399001'].price}`
+                    }
+                // 最后用 getprice() 函数触发：
+                    function getPrice(){
+                        var js = document.createElement('script'),
+                            head = document.getElementsByTagName('head')[0];
+                        js.src = 'http://api.money.126.net/data/feed/0000001,1399001?callback=refreshPrice';
+                        head.appendChild(js);
+                    }
+                // 完成了跨域加载数据
+        
+        // CORS ???
+
+
+
+        // Promise对象
+        // 古人云： "君子一诺千金", 这种 "承诺将来会执行" 的对象在 JavaScript 中统称为 Promise 对象
+        // Promise有各种开源实现，在ES6中被统一规范，由浏览器直接支持
+
+        // Promise 除了串行执行若干异步任务外 job1.then(job2).then(job3).cath(handleError)， 还可以并行执行异步任务，并行执行用 Promise.all()
+        var p1 = new Promise(function (resolve, reject) {
+            setTimeout(resolve, 500, 'P1');
+        });
+        var p2 = new Promise(function (resolve, reject) {
+            setTimeout(resolve, 600, 'P2');
+        });
+        // 同时执行p1和p2，并在它们都完成后执行then:
+        Promise.all([p1, p2]).then(function (results) {
+            console.log(results); // 获得一个Array: ['P1', 'P2']
+        });
+
+        // 有些时候，多个异步任务为了容错，比如，同时向两个URL读取用户的个人信息，只需要获得先返回的结果即可。这种情况下，用 Promise.race()实现：
+        var p1 = new Promise(function (resolve, reject) {
+            setTimeout(resolve, 500, 'P1');
+        });
+        var p2 = new Promise(function (resolve, reject) {
+            setTimeout(resolve, 600, 'P2');
+        });
+        Promise.race([p1, p2]).then(function (result) {
+            console.log(result); // 'P1'
+        });
+
+        // 由于p1执行较快，Promise的then()将获得结果'P1'。p2仍在继续执行，但执行结果将被丢弃。
+        // 如果我们组合使用Promise，就可以把很多异步任务以并行和串行的方式组合起来执行。
+
+
+
+
+    </script>
+    
+</body>
+</html>
