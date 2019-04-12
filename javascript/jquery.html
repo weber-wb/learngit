@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JQuery</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+</head>
+<body>
+
+    <div id="test-highlight">
+        <p>如何编写<span>jQuery</span> <span>Plugin</span></p>
+        <p>编写<span>jQuery</span> <span>Plugin</span>，要设置<span>默认值</span>，并允许用户修改<span>默认值</span>，或者运行时传入<span>其他值</span>。</p>
+    </div>
+
+    <!--  添加 DOM
+        要添加新的DOM节点，除了通过 jQuery 的 html() 这种暴力方法外，还可以用 append() 方法            
+        先获取到父节点：
+        parent.append( '<li><span>child</span></li>' );
+        除了接收字符串，append() 还可以传入原始的 DOM 对象， JQuery对象和函数对象
+        创建DOM对象：
+            var ps = document.createElement('li');
+            ps.innerHTML = '<span>child</span>'
+            Parents.append(ps)
+        添加 JQuery对象
+            parent.append($("#search"))
+        添加函数对象
+            parent.append(function(index,html){
+                return '<li><span>Language-'+ index +'</span></li>'
+            })
+        append() 把DOM 添加到最后， prepend() 则把DOM 添加到最前
+
+        如果要把新节点插入到指定的位置，可以用 after() 方法：
+        也就是说，同级节点下可以使用 after() 或者 before() 方法
+
+        
+    删除 DOM
+        要删除DOM节点，拿到 JQuery 对象后直接调用 remove() 方法就可以了
+    -->
+
+    <!-- 事件
+        
+        鼠标事件：
+            click： 鼠标单击时触发
+            dblclick: 鼠标双击时触发
+            mouseenter: 鼠标进入时触发
+            mouseleave: 鼠标移出时触发
+            mousemove:  鼠标在DOM内部移动时触发
+            hover： 鼠标进入和退出同时触发两个函数，相当于 mouseenter , mouseleave
+            ......
+
+        键盘事件：
+            keyup:  键盘松开时触发
+            keydown:  键盘按下时触发
+            keypress: 按一次键后触发
+
+        其他事件：
+            focus：当DOM获得焦点时触发
+            blur：当DOM失去焦点时触发
+            change：当<input>、<select>或<textarea>的内容改变时触发
+            submit：当<form>提交时触发
+            ready：当页面被载入并且DOM树完成初始化后触发
+    
+    -->
+
+    <script>
+    
+        // 给jQuery对象绑定一个新方法通过 $.fn 对象实现的。让我们来编写一个扩展 --- highlight()
+        $.fn.highlight = function(){
+            // this 已经绑定为当前 jQuery 对象
+            this.css('backgroundColor', '#ff0').css('color','#000');
+            return this;        // 因为jQuery对象支持链式操作，我们自己写的扩展方法也要能继续链式下去
+        };
+
+        // 如果用户希望高亮的颜色能自己来指定，我们可以给方法加个参数，让用户可以把参数用对象传进去，继续操作实现 -- highlight2()
+        $.fn.highlight2 = function(options){
+            // 要考虑的各种情况
+            // options 未传值 undefined
+            // options 只有部分 key
+            var bgColor = options && options.backgroundColor || '#ff0';     // 对于默认值的处理，用了一个简单的 && 和 || 短路操作符 ，总能得到一个有效的值
+            var textColor = options && options.color || '#000';
+            this.css('backgroundColor',bgColor).css('color',textColor);
+            return this;
+        };
+
+        // jQuery提供的辅助方法 $.extend(target,obj1,obj2,...) , 它把多个 Object 对象的属性合并到第一个 target 对象中，遇到同名同姓的属性，总是使用靠后的对象的值，也就是越往后优先级越高
+        $.fn.highlight3 = function(options){
+            console.log(options)
+            // 设定默认值：
+            var defaults = {
+                backgroundColor: '#f00',
+                color: '#000'
+            };
+            // 合并默认值和用户设定的值
+            var opts = $.extend({}, defaults, options);
+            this.css('backgroundColor',opts.backgroundColor).css('color',opts.color);
+            return this;
+        };
+
+        $("#test-highlight span").highlight3({backgroundColor:'#f2fae3',color: '#f00'});
+        setTimeout( ()=> {
+            $("#test-highlight span").highlight3();
+        },2000);
+
+        // 以上每次调用都需要传入自定义的设置，能不能让我自己设定一个缺省值，以便以后的调用统一使用无参数的 highlight2() ?
+        // $.fn.highlight4 = function(options){
+        //     var opts = $.extend({}, $.fn.highlight4.defaults, options);
+        //     this.css('backgroundColor',opts.backgroundColor).css('color',opts.color);
+        //     return this;
+        // }
+        // 设定默认值：
+        // $.fn.highlight4.defaults = {
+        //     backgroundColor: '#ff0',
+        //     color: '#000'
+        // };
+
+        // 扩展jQuery对象的功能十分简单，但是我们要遵循jQuery的原则，编写的扩展方法能支持链式调用、具备默认值和过滤特定元素，使得扩展方法看上去和jQuery本身的方法没有什么区别。
+        
+        
+    </script>
+
+    
+</body>
+</html>

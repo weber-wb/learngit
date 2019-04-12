@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>javascript Error</title>
+</head>
+<body>
+    
+
+    <script>
+        // 错误处理
+        // 使用 try...catch...finally 处理错误时，编写代码如下：
+
+        'use strict';
+        var r1, r2, s=null;
+        try {
+            r1 = s.length; // 此处应产生错误
+            r2 = 100; // 该语句不会执行
+        } catch (e) {
+            console.log('出错了：' + e);
+        } finally {
+            console.log('finally');
+        }
+        console.log('r1 = ' + r1); // r1应为undefined
+        console.log('r2 = ' + r2); // r2应为undefined
+
+        // try 语句一共有三种形式：
+        // 完整的 try...catch...finally
+        // 只有 try...catch , 没有 finally
+        // 只有 try...finally , 没有 catch
+
+        // 错误类型，JavaScript有一个标准的Error对象表示错误，还有从Error 派生的 TypeError,ReferenceError等错误对象
+        // 我们在处理错误时，可以通过catch(e)捕获变量e访问错误对象：
+        try {
+            // ...
+        } catch (e) {
+            if (e instanceof TypeError) {
+                alert('Type error!');
+            } else if (e instanceof Error) {
+                alert(e.message);
+            } else {
+                alert('Error: ' + e);
+            }
+        }
+        // 使用变量e是一个习惯用法，也可以以其他变量名命名，如catch(ex)。
+
+        // 抛出错误
+        // 程序也可以主动抛出一个错误，让执行流程直接跳转到 catch 块，抛出错误 使用 throw 语句
+        // 处理错误时，请不要简单粗暴的使用alert()把错误显示给用户
+
+
+    </script>
+</body>
+</html>
