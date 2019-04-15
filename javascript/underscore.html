@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>underscore</title>
+</head>
+<body>
+    
+    <script>
+        // javascript是函数式编程语言，支持高阶函数和闭包
+        // 函数式编程非常强大，可以写出非常简洁的代码，例如 Array的map() 和 filter() 方法：
+
+        'use strict'
+        var a1 = [1,4,9,16];
+        var a2 = a1.map( Math.sqrt );       // [1,2,3,4]
+        var a3 = a2.filter( (x) => { return x%2 === 0; });      // [2,4]
+
+        // Array 有 map() 和 filter() 方法 ，可以 Object 没有这些方法，此外低版本的浏览器(IE6-8)也没有这些方法，怎么办？
+        // 方法一：自己把这些方法添加到 Array.prototype 中， 然后给 Object.prototype 也加上 mapObject() 等类似的方法
+        // 方法二：直接找一个成熟可靠的第三方开源库，使用统一的函数来实现 map()、filter() 这些操作
+
+        // 选择第三方库就是 underscore
+        // 正如jQuery统一了不同浏览器之间的DOM操作的差异，让我们可以简单地对DOM进行操作，underscore则提供了一套完善的函数式编程的接口，让我们更方便地在JavaScript中实现函数式编程。
+        // jQuery在加载时，会把自身绑定到唯一的全局变量 $ 上，underscore与其类似，会把自身绑定到唯一的全局变量 _ 上，这也是为啥它的名字叫underscore的原因。
+
+        // 用 underscore 实现 map() 操作：
+        _.map([1,2,3], (x) => x*x );        // [1,4,9]
+
+        // 用 underscore 的map()还可以作用于Object
+        _.map({ a: 1, b: 2, c: 3 }, (v, k) => k + '=' + v);     // ['a=1', 'b=2', 'c=3']
+
+
+        // Collections
+        // underscore为集合类对象提供了一致的接口。集合类是指Array和Object，暂不支持Map和Set。
+        // 和Array的map()与filter()类似，但是underscore的map()和filter()可以作用于Object。当作用于Object时，传入的函数为function (value, key)，第一个参数接收value，第二个参数接收key：
+        var obj = {
+            name: 'weber',
+            school: 'No.1 middle school'
+        };
+        var upper = _.map(obj, function(value,key){
+            return value;       // ["bob","No.1 middle school"]
+        });
+        // 为啥对Object作map()操作的返回结果是Array？应该是Object才合理啊！把_.map换成_.mapObject再试试
+        var upper1 = _.mapObject(obj,function(value,key){
+            return value;       // {"name":"bob","school":"No.1 middle school"}
+        });
+
+        // every / some
+        // 当集合的所有元素都满足条件时，_.every()函数返回true，当集合的至少一个元素满足条件时，_.some()函数返回true：
+        _.every([1,4,7,-9], (x) => x>0 );    // false   所有元素都大于0
+        _.some([1,4,7,-9], (x) => x>0 );    // true     至少一个元素大于0
+
+        // max / min 
+        // 这两个函数直接返回集合中最大和最小的树
+        var arr = [1,3,5,7,9];
+        _.max(arr);     // 9
+        _.min(arr);     // 1
+        // 空集合会返回 -Infinity 和 Infinity ，所以要先判断集合不为空
+        _.max([]);      // -Infinity
+        _.min([]);      // Infinity
+
+        // groupBy
+        // groupBy() 把集合的元素按照 key 归类，key由传入的参数返回：
+        var scopes = [10,20,30,40,50,60,70];
+        var groups = _.groupBy(scopes, function(x){
+            if ( x < 30) {
+                return '小'
+            } else if ( x < 50){
+                return '中'
+            } else {
+                return '大'
+            }
+        });
+        groups;     // { '小':[10,20],'中':[30,40],'大':[50,60,70] }
+
+        // shuffle / sample 
+        // shuffle() 用洗牌算法随机打乱一个集合：
+        _.shuffle([1, 2, 3, 4, 5, 6]);   //  [1, 5, 2, 6, 3, 4]  每次结果都不一样
+        // sample() 则是随机选取一个或多个元素：
+        _.sample([1,2,3,4,5,6]);        // 2
+        _.sample([1,2,3,4,5,6], 3);     // [2,1,3]
+
+        // 更多完整函数请参考 underscore 文档 : https://underscorejs.org/#collections
+
+
+        // Array    提供了许多工具类的方法：
+        // first / last     顾名思义，这两个函数分别取第一个和最后一个元素
+        var arr1 = [1,2,3];
+        _.first(arr1);      // 1
+        _.last(arr1);       // 3
+
+        // flatten 接收一个Array , 无论这个 Array 里面嵌套了多少个 Array, 最后 flatten() 都把它们变成一个一维数组：
+        var arr2 = [1,[2,[3,4,[5,6]]]];
+        _.flatten(arr2);        // [1,2,3,4,5,6]
+
+        // zip / unzip
+        // zip() 把两个或多个数组的所有元素按索引对齐，然后按索引合并成新的数组：
+        var names = ['Adam','Lisa','Soina','Weber'];
+        var scores = [80,40,60,88];
+        _.zip(names,scores);     //      [ ['Adam',80], ['Lisa',40], ['Sonia',60], ['Weber',88] ];
+        var ages = [15,20,16,18];
+        _.zip(names,scores,ages);       // [ ['Adam',80,15], ['Lisa',40,20], ['Sonia',60,16], ['Weber',88,18] ];
+
+        // unzip() 则是反过来
+        var namesScores = [ ['Adam',80], ['Lisa',40], ['Sonia',60], ['Weber',88] ];
+        _.unzip(namesScores);       // [ ["Adam", "Lisa", "Sonia", "Weber"], [80, 40, 60, 88] ]
+
+        // object   与其用 zip() ，为啥不把名字和分数直接对应成 Object ， object()函数就是干这个的：
+        var namess = ['Adam','Lisa','Soina','Weber'];
+        var scoress = [80,40,60,88];
+        _.object(namess,scoress);       //  {Adam: 80, Lisa: 40, Soina: 60, Weber: 88}
+        // 注意 _.object() 是一个函数，不是JavaScript的Object对象
+
+        // range
+        // range() 能快速生成一个序列，不再需要for循环实现：
+        _.range(10);    // 从0开始小于10     [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        _.range(1,8);   // 从1开始小于8      [1, 2, 3, 4, 5, 6, 7]
+        _.range(0,30,5);        // 从0开始小于30，步长5:     [0,5,10,15,20,25]
+        _.range(0, -10, -1);    // 从0开始大于-10，步长-1:   [0, -1, -2, -3, -4, -5, -6, -7, -8, -9]
+
+
+        // Function
+        // bind() 有什么用
+        // 当用一个变量 fn 指向一个对象的方法时，直接调用 fn() 是不行的，因为丢失了 this 对象的引用。 用 bind() 可以修复这个问题
+        var s = 'Hello  ';
+        var fn = _.bind(s.trim, s);
+        fn();       // 'Hello'
+        
+        // partial() 就是为一个函数创建偏函数，何为偏函数？
+        // 假如我们计算 x的y次方 ， 只需要调用 Math.pow(x,y)即可
+        // 假如经常计算 2的y次方 ， 每次都要写 Math.pow(2,y) 比较麻烦， 如果创建一个新的函数能直接写 pow2N(y) 就好 ， 这个函数就是根据 Math.pow(x,y) 创建出来的偏函数，它固定住了原函数的第一个参数（始终为2）
+        var pow2N = _.partial(Math.pow, 2);
+        // 如果我们不想固定第一个参数，想固定第二个参数， 可以用 _ 作为占位符，固定住第二个参数
+        var cube = _.partial(Math.pow, _, 3)
+        cube(5);    //  125
+        // 创建偏函数的目的就是将原函数的某些参数固定住，可以降低新函数调用的难度
+
+        // memoize()    如果一个函数调用开销很大，我们就可能希望把结果缓存下来，以便后续调用直接获得结果
+        // 计算阶乘：
+            var factorial = _.memoize(function(n){
+                console.log('start calculate' + n + '!');
+                var s = 1, i = n;
+                while (i>1) {
+                    s = s * i;
+                    i--;
+                };
+                return s;
+            });
+
+            factorial(10);      // 3628800  会计算一次 'start calculate 10'
+            factorial(10);      // 3628800  直接调用缓存
+            factorial(9);       // 362880   又会重新计算 'start calculate 9'
+
+            // 可以对 factorial 进行改进，让其递归调用：
+            var factorial = _.memoize(function(n){
+                console.log('start calculate' + n + '!');
+                if(n < 2) {
+                    return 1;
+                };
+                return n * factorial(n-1)
+            });
+            factorial(10);      // 3628800  会计算一次 'start calculate 10'
+            factorial(9);       // 362880   直接调用缓存
+
+        
+        // once() , 顾名思义 once() 保证某个函数执行且仅执行一次
+        var register = _.once(function(){
+            console.log('只会出现一次');
+        });
+
+        // delay()
+        // 可以让一个函数延迟执行，效果和 setTimeout() 是一样的
+        // _.delay(alert,2000);
+
+
+        
+
+
+    </script>
+</body>
+</html>
