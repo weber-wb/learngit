@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>vs-demo</title>
-    <script src="node_modules/vue/dist/vue.js"></script>
+    <script src="./vue.js"></script>
 </head>
 <body>
     <div id="my">
@@ -28,6 +28,13 @@
             <input type="text" v-model="wDefault">
         </div>
 
+        <div>
+            <ul>
+                <!-- 索引在计算属性如何获取 采用闭包原理返回一个函数 -->
+                <li v-for="(item,index) in arr">{{ numIndex(index) }}----- {{item.name}} --- {{item.age}}</li>
+            </ul>
+        </div>
+
     </div>
     
     <script>
@@ -41,8 +48,22 @@
                         id: '0001',
                         name:'john'
                     },
-                    wDefault: '默认值'
-                },                
+                    wDefault: '默认值',
+                    arr: [
+                        {id:'1',name:'weber',age:'15'},
+                        {id:'2',name:'sonia',age:'20'},
+                        {id:'3',name:'john',age:'18'},
+                        {id:'4',name:'xiaoming',age:'36'},
+                        {id:'5',name:'xiaohong',age:'28'}
+                    ]
+                },      
+                computed:{
+                    numIndex(){     // 获取索引计算属性返回一个函数
+                        return function(index){
+                            return index+1;
+                        }
+                    }
+                },
                 created () {
                     // 方式1： 使用vue实例提供的 $watch() 方法
                     
@@ -72,6 +93,9 @@
                         }else{
                             this.$set(this.user, 'age', 20);
                         }
+
+                        // this.$data.user   ==== this.user 
+                        // v-cloak 解决浏览器闪烁,配置对应的CSS,否则不生效  <style> [v-cloak]{ display:none; } </style>
                     },
                     doDelete:function(){
                         console.log('删除属性');

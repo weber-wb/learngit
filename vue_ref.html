@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue ref 获取DOM节点</title>
+</head>
+<body>
+
+    <script src="./vue.js"></script>
+
+    <div id="app">
+        <div>
+            <input type="text" ref='input'/>
+            <button @click="fun">触发焦点</button>
+        </div>
+    </div>
+    
+    <script>
+        new Vue({
+            el: '#app',
+            data () {
+                return {
+
+                }
+            },
+            methods: {
+                fun:function(){
+                    this.$refs.input.focus();
+                    this.$refs.input.value = '123';
+                    this.$refs.input.style.backgroundColor = '#ccc'
+                }
+            }
+        })
+    </script>
+</body>
+</html>

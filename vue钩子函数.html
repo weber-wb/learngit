@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>vue钩子函数</title>
-    <script src="node_modules/vue/dist/vue.js"></script>
+    <script src="./vue.js"></script>
 </head>
 <body>
     <div id="my">
@@ -23,7 +23,7 @@
     <script>
         window.onload = function(){
             new Vue({
-                el: '#my',
+                el: '#my',      // 2.0不允许挂载到html,body元素上
                 data: {
                     msg: 'Hello world',
                     num: 0
@@ -33,19 +33,19 @@
                 show:function(){
                     console.log('自定义属性方法调用 - show tab pager size');
                 },
-                // beforeCreate () {
+                // beforeCreate () {    // 组件实例刚刚创建，还未进行数据观测和事件配置
                 //     console.log("beforeCreate创建前状态  el: " + this.$el);           //undefined
                 //     console.log("beforeCreate创建前状态  data: " + this.$data);       //undefined
                 // },
-                // created () {
+                // created () {         // 常用，创建完毕状态，完成了data数据的初始化， el没有
                 //     console.log("created创建前状态  el:  " + this.$el);             //undefined
                 //     console.log("created创建前状态  data:  " + this.$data);         //[object object]
                 // },
-                // beforeMount () {
-                //     console.log("beforeMount挂载前状态  el:  "+ this.$el);          //undefined
-                //     console.log("beforeMount挂载前状态  data:  "+ this.$data);      //[object object]
-                // },
-                mounted () {
+                beforeMount () {     // 挂载前状态，完成了el 和 data 初始化
+                    console.log("beforeMount挂载前状态  el:  "+ this.$el);          //[object HTMLDivElement]
+                    console.log("beforeMount挂载前状态  data:  "+ this.$data);      //[object object]
+                },
+                mounted () {        // 常用，挂载结束状态，完成挂载
                     console.log("mounted挂载后状态  el:  "+ this.$el);              //[object HTMLDivElement]
                     console.log("mounted挂载后状态  data:  "+ this.$data);          //[object object]
 
@@ -66,22 +66,22 @@
                     })
 
                 },
-                beforeUpdate () {
+                beforeUpdate () {       // 更新前状态
                     console.log("beforeUpdate  el:  "+ this.$el);
                     console.log("beforeUpdate  data:  "+ this.$data);
                     console.log(this.$refs.msg);
                     console.log('beforeUpdate 数据改变前内容：' + this.$refs.msg.innerHTML);
                 },
-                updated () {
+                updated () {        // 更新完成状态
                     console.log("updated  el:  "+ this.$el);
                     console.log("updated  data:  "+ this.$data);
                     console.log(this.$refs.msg);
                     console.log('beforeUpdate 数据改变后内容渲染：' + this.$refs.msg.innerHTML);
                 },
-                beforeDestroy () {
+                beforeDestroy () {      // 销毁前状态
                     console.log("beforeDestroy --  el:  "+ this.$el)
                 },
-                destroyed () {
+                destroyed () {      // 销毁完成状态
                     console.log("destroyed  --  data: "+ this.$data)
                 }
             })
