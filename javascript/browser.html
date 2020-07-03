@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>JavaScript 浏览器对象</title>
 </head>
+
 <body>
 
     <div id="my">
@@ -14,16 +16,17 @@
             <li>标题二</li>
             <li>标题三</li>
             <li>标题四</li>
-        </ul>     
+            <li>标题五</li>
+        </ul>
     </div>
 
     <div id="previewImg"></div>
-    <form action="" method="post" enctype="multipart/form-data">    
+    <form action="" method="post" enctype="multipart/form-data">
         <input type="file" id="test-file" name='test'>
     </form>
 
     <script>
-    
+
         // javascript 可以获取浏览器提供的很多对象，并进行操作
         // window 对象不但充当全局作用域，而且表示浏览器窗口:
         window.innerWidth;      // 浏览器窗口的内部宽度
@@ -87,8 +90,8 @@
         // 插入DOM
         // 1.如果DOM节点是空的，比如 "<div></div>" ,  那么可以直接使用  innerHTML = "<span>child</span>" 就可以修改DOM节点的内容，相当于插入了新的 DOM 节点
         // 2.如果DOM节点不是空的，那就不可以用 innerHTML ，不然会覆盖掉原有的所有的子节点 ， 有两个办法可以插入新的节点
-            // appendChild ，把一个子节点添加到父节点的最后一个节点     // parent.appendChild('<span>child</span>')
-            // insertBefore ， 把一个子节点插入到指定的位置             // parentElement.insertBefore(newElement, referenceElement);
+        // appendChild ，把一个子节点添加到父节点的最后一个节点     // parent.appendChild('<span>child</span>')
+        // insertBefore ， 把一个子节点插入到指定的位置             // parentElement.insertBefore(newElement, referenceElement);
 
         // 删除DOM
         // 删除一个DOM节点要比插入一个DOM 节点要容易的多，首先获取该节点本身以及它的父节点，然后调用父节点的 removeChild 把自己删掉
@@ -97,93 +100,93 @@
 
 
         // 操作表单
-            // ...
-            // 隐藏文本，<input type='hidden' /> ，用户不可见，但表单提交时会把隐藏文本发送到服务器
+        // ...
+        // 隐藏文本，<input type='hidden' /> ，用户不可见，但表单提交时会把隐藏文本发送到服务器
 
-            // 获取一个 input 节点的引用，就可以直接调用 value 获得对应用户输入值：
-            // <input type="text" id="email" />
-            // document.getElementById('email').value;      // 获取用户输入的值
-            // 这种方式可以适用于 text , password , hidden , select 
-            // 对于复选框 checkbox 和 单选框 radio , value 属性返回的永远是 HTML 预设的值 , 而我们需要获得实际上是用户是否勾选 , 所以用 checked 判断, 返回 true 或 false
+        // 获取一个 input 节点的引用，就可以直接调用 value 获得对应用户输入值：
+        // <input type="text" id="email" />
+        // document.getElementById('email').value;      // 获取用户输入的值
+        // 这种方式可以适用于 text , password , hidden , select 
+        // 对于复选框 checkbox 和 单选框 radio , value 属性返回的永远是 HTML 预设的值 , 而我们需要获得实际上是用户是否勾选 , 所以用 checked 判断, 返回 true 或 false
 
-            // HTML5 新增了大量标准控件, 常用的包括 date, dateTime, dateTime-local, color等, 它们都使用 <input/> 标签
-            // 不支持HTML5的浏览器无法识别新的控件，会把它们当做 type="text" 来显示
+        // HTML5 新增了大量标准控件, 常用的包括 date, dateTime, dateTime-local, color等, 它们都使用 <input/> 标签
+        // 不支持HTML5的浏览器无法识别新的控件，会把它们当做 type="text" 来显示
 
-            // 提交表单
-                // 方法1：  通过 <form> 元素的 submit() 方法提交一个表单 , 响应一个 button 的 click 事件处理
-                // 
-                // <form id="test-form">
-                //     <input type="text" name="test">
-                //     <button type="button" onclick="doSubmitForm()">Submit</button>
-                // </form>
+        // 提交表单
+        // 方法1：  通过 <form> 元素的 submit() 方法提交一个表单 , 响应一个 button 的 click 事件处理
+        // 
+        // <form id="test-form">
+        //     <input type="text" name="test">
+        //     <button type="button" onclick="doSubmitForm()">Submit</button>
+        // </form>
 
-                // function doSubmitForm(){
-                //     var formEle = document.getElementById('test-form');
-                //     formEle.submit();
-                // };
-                // 这种方式的缺点是扰乱了浏览器对form的正常提交。浏览器默认点击<button type="submit">时提交表单，或者用户在最后一个输入框按回车键
-                
+        // function doSubmitForm(){
+        //     var formEle = document.getElementById('test-form');
+        //     formEle.submit();
+        // };
+        // 这种方式的缺点是扰乱了浏览器对form的正常提交。浏览器默认点击<button type="submit">时提交表单，或者用户在最后一个输入框按回车键
 
-                // 方法2：  响应 <form> 本身的 onsubmit 事件, 在提交 form 时作修改:
-                // 
-                // <form id="test-form" onsubmit="return checkForm()">
-                //     <input type="text" name="test">
-                //     <button type="submit">Submit</button>
-                // </form>
 
-                // function checkForm(){
-                //     var formEle = document.getElementById('test-form');
-                //     // 可以在此修改form的input...
-                //     // 继续下一步
-                //     return true;
-                // }
-                // 注意要return true来告诉浏览器继续提交，如果return false，浏览器将不会继续提交form，这种情况通常对应用户输入有误，提示用户错误信息后终止提交form。
+        // 方法2：  响应 <form> 本身的 onsubmit 事件, 在提交 form 时作修改:
+        // 
+        // <form id="test-form" onsubmit="return checkForm()">
+        //     <input type="text" name="test">
+        //     <button type="submit">Submit</button>
+        // </form>
 
-                // 有时候用户输入用户名和密码时，安全考虑提交表单时不传输明文口令，而是MD5, 普通JavaScript开发人员会直接修改 input
-                // 例如：   pwd.value = toMD5(pwd.value);   // 做法看上去没什么问题，但是在表单提交时候 口令框会从几个*变成32个* （因为MD5有32个字符）
-                // 一般的做法是利用 隐藏域 , <input type="hidden">
-                // 没有 name 属性的 <input> 的数据不会被提交
+        // function checkForm(){
+        //     var formEle = document.getElementById('test-form');
+        //     // 可以在此修改form的input...
+        //     // 继续下一步
+        //     return true;
+        // }
+        // 注意要return true来告诉浏览器继续提交，如果return false，浏览器将不会继续提交form，这种情况通常对应用户输入有误，提示用户错误信息后终止提交form。
 
-            // 操作文件
-                // 在HTML表单中，可以上传文件的唯一控件就是 <input type="file">
-                // 注意，当一个表单中包含 <input type="file">时，表单的 enctype 必须指定 multipart/form-data, method 必须指定为 post , 浏览器才能正确编码并以 multipart/form-data 格式发送表单的数据
+        // 有时候用户输入用户名和密码时，安全考虑提交表单时不传输明文口令，而是MD5, 普通JavaScript开发人员会直接修改 input
+        // 例如：   pwd.value = toMD5(pwd.value);   // 做法看上去没什么问题，但是在表单提交时候 口令框会从几个*变成32个* （因为MD5有32个字符）
+        // 一般的做法是利用 隐藏域 , <input type="hidden">
+        // 没有 name 属性的 <input> 的数据不会被提交
 
-            // File API
-                // 由于JavaScript对用户上传的文件操作非常有限，尤其是无法读取文件的内容，使得很多需要操作文件的网页不得不使用 Flash 这样第三方插件来实现
-                // 随着 HTML5 普及，新增的 File API 允许 JavaScript 读取文件内容，获得更多的文件信息
-                // HTML5的 File API 提供了 File 和 FileReader 两个主要对象，可以获取文件信息并读取文件
+        // 操作文件
+        // 在HTML表单中，可以上传文件的唯一控件就是 <input type="file">
+        // 注意，当一个表单中包含 <input type="file">时，表单的 enctype 必须指定 multipart/form-data, method 必须指定为 post , 浏览器才能正确编码并以 multipart/form-data 格式发送表单的数据
 
-                (function(){
-                    var testFile = document.getElementById('test-file'),
-                        previewImg = document.getElementById('previewImg');
+        // File API
+        // 由于JavaScript对用户上传的文件操作非常有限，尤其是无法读取文件的内容，使得很多需要操作文件的网页不得不使用 Flash 这样第三方插件来实现
+        // 随着 HTML5 普及，新增的 File API 允许 JavaScript 读取文件内容，获得更多的文件信息
+        // HTML5的 File API 提供了 File 和 FileReader 两个主要对象，可以获取文件信息并读取文件
 
-                    testFile.addEventListener('change',function(){
-                        // 获取File引用
-                        var file = testFile.files[0];
-                        // console.log(file);
+        (function () {
+            var testFile = document.getElementById('test-file'),
+                previewImg = document.getElementById('previewImg');
 
-                        if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif') {
-                            alert('不是有效的图片文件!');
-                            return;
-                        }
+            testFile.addEventListener('change', function () {
+                // 获取File引用
+                var file = testFile.files[0];
+                // console.log(file);
 
-                        // 读取文件
-                        var reader = new FileReader();
-                        reader.onload = function(e){
-                            var data = e.target.result;     // 'data:image/jpeg;base64,/9j/4AAQSk...(base64编码)...' 
-                            previewImg.style.width = '200px';
-                            previewImg.style.height = '200px';
-                            previewImg.style.backgroundImage = 'url('+ data +')';
-                            previewImg.style.backgroundSize = 'cover';
+                if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif') {
+                    alert('不是有效的图片文件!');
+                    return;
+                }
 
-                            console.log(data);
-                        }
+                // 读取文件
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var data = e.target.result;     // 'data:image/jpeg;base64,/9j/4AAQSk...(base64编码)...' 
+                    previewImg.style.width = '200px';
+                    previewImg.style.height = '200px';
+                    previewImg.style.backgroundImage = 'url(' + data + ')';
+                    previewImg.style.backgroundSize = 'cover';
 
-                        // 以DataURL的形式读取文件:
-                        reader.readAsDataURL(file);
+                    console.log(data);
+                }
 
-                    })
-                })();
+                // 以DataURL的形式读取文件:
+                reader.readAsDataURL(file);
+
+            })
+        })();
 
             // 回调
                 // JavaScript的一个重要特性就是单线程模式，在JavaScript中，浏览器的JavaScript执行引擎在执行JavaScript代码时，总是以单线程模式执行
@@ -200,6 +203,7 @@
 
 
     </script>
-    
+
 </body>
+
 </html>

@@ -1,32 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>JavaScript Array 数组</title>
 </head>
+
 <body>
 
     <script>
-        
+
         window.onload = function () {
 
             // JavaScript 的 Array 可以包含任意数据类型，并通过索引访问每个元素
 
             // 获取数组的长度，直接访问 length 属性
-            var arr1 = [1,2,3,4,5];
+            var arr1 = [1, 2, 3, 4, 5];
             arr1.length;        //5
 
             // 请注意，直接给 Array 的 length 赋一个新的值会导致 Array 大小的变化
-            var arr2 = [1,2,3];
+            var arr2 = [1, 2, 3];
             arr2.length = 5;
             arr2;       // [1,2,3,undefined,undefined]
             arr2.length = 2;
             arr2;       // [1,2]
 
             // Array 可以通过索引把对应的元素修改为新的值，因此，对 Array 的索引进行赋值会直接修改这个 Array
-            var arr3 = [1,2,3,4,5];
+            var arr3 = [1, 2, 3, 4, 5];
             arr3[1] = 'ABC';
             arr3;       //[1,'ABC',3,4,5]            
             // 如果赋值的索引超出了范围，同样会改变 Array 大小的变化
@@ -35,7 +37,7 @@
             // 大多数其他编程语言不允许直接改变数组的大小，越界访问索引会报错。然而，JavaScript的 Array 却不会有任何错误。在编写代码时，不建议直接修改Array的大小，访问索引时要确保索引不会越界。
 
             // Array 也可以通过 indexOf() 来搜索一个指定的元素位置：
-            var arr4 = [100,'200','ABC'];
+            var arr4 = [100, '200', 'ABC'];
             arr4.indexOf(100);      //0
             arr4.indexOf(200);      //-1
             arr4.indexOf('200');    //1
@@ -43,7 +45,7 @@
 
             // slice() 就是对应 String 的 substring() 版本， 它截取 Array 的部分元素，返回一个新的 Array
             var arr5 = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
-            arr5.slice(0,3);        // ['A', 'B', 'C']      从索引0开始，索引3结束(不包含索引3)
+            arr5.slice(0, 3);        // ['A', 'B', 'C']      从索引0开始，索引3结束(不包含索引3)
             arr5.slice(3);          // [D', 'E', 'F', 'G']  从索引3开始到结束
             // 如果不给 slice() 传递任何参数，它会从头到尾截取所有元素，利用这一点，我们可以很容易复制一个 Array 
             var arr6 = arr5.slice();
@@ -57,19 +59,19 @@
 
             // push 和 pop
             // push() 向 Array 的末尾添加若干元素,返回数组新的长度 ， pop() 则把 Array 的最后一个元素删除,返回的是删除元素
-            var arr7 = [1,2,3];
-            arr7.push('A','B');     //返回数组新的长度    5
+            var arr7 = [1, 2, 3];
+            arr7.push('A', 'B');     //返回数组新的长度    5
             arr7;           //  [1, 2, 3, "A", "B"]
             arr7.pop();     //  返回删除的数组  "B"
             arr7;           //  [1, 2, 3, "A"]
-            arr7.pop();   arr7.pop();  arr7.pop();  arr7.pop();       //最后一次返回的是元素 1
+            arr7.pop(); arr7.pop(); arr7.pop(); arr7.pop();       //最后一次返回的是元素 1
             arr7;   // []
             arr7.pop();     // 空数组继续 pop() 的话不会报错，而是返回 undefined
 
             // unshift 和 shift
             // unshift() 向 Array 的头部添加若干元素, 返回数组新的长度 ， shift() 则把 Array 的头部第一个元素删除, 返回的是删除元素
-            var arr8 = [1,2];
-            arr8.unshift('A','B','C');      //返回数组新的长度  5
+            var arr8 = [1, 2];
+            arr8.unshift('A', 'B', 'C');      //返回数组新的长度  5
             arr8;       // ['A','B','C',1,2]
             arr8.shift();       // 返回删除的元素 A  
             arr8.shift(); arr8.shift(); arr8.shift(); arr8.shift();     // 最后一次返回的是元素 2
@@ -77,45 +79,46 @@
             arr8.shift();       //空数组继续 shift() 的话不会报错，而是返回 undefined
 
             // sort() 可以对当前的 Array 进行排序，它会直接修改当前 Array 的元素位置，直接调用按照默认顺序排序
-            var arr9 = ['B','C','G','A'];
+            var arr9 = ['B', 'C', 'G', 'A'];
             arr9.sort();        //  ["A", "B", "C", "G"]
-            var arr10 = [1,2,4,234,2,4,23,6,3,62,4.5];
+            var arr10 = [1, 2, 4, 234, 2, 4, 23, 6, 3, 62, 4.5];
             arr10.sort();        //  [1, 2, 2, 23, 234, 3, 4, 4, 4.5, 6, 62]     并没有按照大小顺序排序
-            arr10.sort( (a,b)=>{ return a-b } );     //  正序 [1, 2, 2, 3, 4, 4, 4.5, 6, 23, 62, 234]
-            arr10.sort( (a,b)=>{ return b-a } );     //  倒序 [234, 62, 23, 6, 4.5, 4, 4, 3, 2, 2, 1]
+            arr10.sort((a, b) => { return a - b });     //  正序 [1, 2, 2, 3, 4, 4, 4.5, 6, 23, 62, 234]
+            arr10.sort((a, b) => { return b - a });     //  倒序 [234, 62, 23, 6, 4.5, 4, 4, 3, 2, 2, 1]
 
             // reverse() 把整个 Array 的元素给掉个个，也就是反转：
-            var arr11 = ['weber','sonia','jeep','xiaoming'];
+            var arr11 = ['weber', 'sonia', 'jeep', 'xiaoming'];
             arr11.reverse();        // ["xiaoming", "jeep", "sonia", "weber"]
 
             // splice() 方法是修改 Array 的 '万能方法', 它可以从指定的索引开始删除若干元素，然后再从该位置添加若干元素
-            var arr12 = ['Microsoft','Apple','sublime','Huawei','Vscode','IDEA'];
+            var arr12 = ['Microsoft', 'Apple', 'sublime', 'Huawei', 'Vscode', 'IDEA'];
             // 从索引2开始删除3个元素，并且再添加2个元素
-            arr12.splice(2,3,'GitHub','gitee');     // 返回删除的元素 ["sublime", "Huawei", "Vscode"]
+            arr12.splice(2, 3, 'GitHub', 'gitee');     // 返回删除的元素 ["sublime", "Huawei", "Vscode"]
             arr12;      // ["Microsoft", "Apple", "GitHub", "gitee", "IDEA"]
             // 只删除，不添加
-            arr12.splice(2,1);      // 返回删除的元素 ['GitHub']
+            arr12.splice(2, 1);      // 返回删除的元素 ['GitHub']
             arr12;          //  ["Microsoft", "Apple", "gitee", "IDEA"]
             // 只添加，不删除
-            arr12.splice(3,0,'weber','jeep');       // 返回 [] , 因为没有删除数组任何元素
+            arr12.splice(3, 0, 'weber', 'jeep');       // 返回 [] , 因为没有删除数组任何元素
             arr12;          // ["Microsoft", "Apple", "gitee", "weber", "jeep", "IDEA"]
 
             // concat() 方法是把当前的 Array 和 另一个 Array 连接起来，并返回一个新的 Array
-            var arr13 = [1,2,3];
-            arr13.concat(4,5,6);        //  返回一个新的数组  [1,2,3,4,5,6]
+            var arr13 = [1, 2, 3];
+            arr13.concat(4, 5, 6);        //  返回一个新的数组  [1,2,3,4,5,6]
             arr13;      // [1,2,3]  
             // 请注意，concat() 方法并没有修改当前 Array ，而是返回了一个新的 Array
-            var arr14 = [1,2,3];
-            arr14.concat('a','b',[7,4,5]);      //  [1, 2, 3, "a", "b", 7, 4, 5]
+            var arr14 = [1, 2, 3];
+            arr14.concat('a', 'b', [7, 4, 5]);      //  [1, 2, 3, "a", "b", 7, 4, 5]
             // 实际上，concat() 方法可接收任意个元素和 Array ，并且自动把 Array 拆开，然后全部添加到新的 Array 里返回
 
             // join() 方法是一个非常实用的方法，它把当前 Array 的每个元素都用指定的字符串连接起来，然后返回连接后的字符串
-            var arr15 = ['a','A','b','B',1,2,3];
+            var arr15 = ['a', 'A', 'b', 'B', 1, 2, 3];
             arr15.join('-');        // "a-A-b-B-1-2-3"
             arr15.join();           // "a,A,b,B,1,2,3"      若join()没有传递指定的拼接符号
+            arr15.join('');         // aAbB123
 
 
-            
+
             // ES6 一行代码实现数组去重  ES6中新增了 Set 数据结构， 类似于数组，但是它的成员都是唯一的，其构造函数可以接受一个数组作为参数：
             // let arr11 = [1,2,3,9,7,5,2,7,8,1];
             // let set = new Set(arr11);
@@ -128,27 +131,28 @@
 
 
             // https://www.cnblogs.com/wuvkcyan/p/9489260.html
-            var arr = [1,1,5,77,32,54,2,4,5,2,2,4,52,2,2,2,2,2]
+            var arr = [1, 1, 5, 77, 32, 54, 2, 4, 5, 2, 2, 4, 52, 2, 2, 2, 2, 2]
             //比较常规的语法使用indexOf来判断是否已经存在
             getFileArray(arr)
-            function getFileArray(arr){
+            function getFileArray(arr) {
                 var array = [];
                 arr.forEach(e => {
-                    if(array.indexOf(e) !== -1){
+                    if (array.indexOf(e) !== -1) {
                         return;
-                    }else {
+                    } else {
                         array.push(e)
                     }
                 });
                 return array;
             }
-            
+
 
 
 
         }
 
     </script>
-    
+
 </body>
+
 </html>

@@ -1,47 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>JavaScript 闭包</title>
 </head>
+
 <body>
 
     <script>
-        
+
         // 函数作为返回值
         // 高阶函数除了可以接受函数作为参数，还可以把函数作为结果值返回
-        
+
         // Array求和：
-        function sum(arr){
-            return arr.reduce(function(x,y){
+        function sum(arr) {
+            return arr.reduce(function (x, y) {
                 return x + y;
             })
         };
-        sum( [1,2,3,4,5] );
+        sum([1, 2, 3, 4, 5]);     //15
 
         // 如果不需要立即求和，则是在后面的代码中根据需要再计算怎么办，可以不返回求和的结果，返回求和的函数
-        function return_sum(arr){
-            var sum = function(){
-                return arr.reduce(function(x,y){
+        function return_sum(arr) {
+            var sum = function () {
+                return arr.reduce(function (x, y) {
                     return x + y;
                 })
             };
             return sum;
         };
-        var f = return_sum([1,2,3,4,5]);        // 返回 function sum(){...}
+        var f = return_sum([1, 2, 3, 4, 5]);        // 返回 function sum(){...}
         f();        // 调用函数 f() , 才执行sum ,  返回结果 15
 
         // 在这个例子中，我们在函数 return_sum 中定义了 sum 函数，并且内部函数 sum 可以引用外部函数 return_sum 的参数和局部变量
         // 当return_sum 返回函数 sum 时，相关参数和变量都保存在返回的函数中，这种称之为闭包（closure），每次调用都会返回一个新的函数，即使传入相同的参数
 
 
-        function count(){
+        function count() {
             var arr = [];
-            for(var i=1; i<=3; i++) {
-                arr.push(function(){
-                    return i*i;             // 等到3个函数都返回的时候，它们所引用的变量 i 已经变成了 4 , 因此最终结果为 16
+            for (var i = 1; i <= 3; i++) {
+                arr.push(function () {
+                    return i * i;             // 等到3个函数都返回的时候，它们所引用的变量 i 已经变成了 4 , 因此最终结果为 16
                 })
             };
             return arr;
@@ -114,11 +116,12 @@
         //         }
         //     }
         // }
-        
-        
+
+
 
 
     </script>
-    
+
 </body>
+
 </html>

@@ -1,17 +1,17 @@
-window.onload = function(){
+window.onload = function () {
     // 实例化  var vm = new Vue()
     new Vue({
         el: '#my',
         data: {
-            checkAll: {name: '全选', check: true},
-            lists: [{name: '小米', check: true},
-                    {name: '华为', check: false},
-                    {name: '苹果', check: false},
-                    {name: 'vivo', check: false},
-                    {name: '小米', check: false}]
+            checkAll: { name: '全选', check: false },
+            lists: [{ name: '小米', check: true },
+            { name: '华为', check: false },
+            { name: '苹果', check: false },
+            { name: 'vivo', check: false },
+            { name: '小米', check: false }]
         },
-        methods:{
-            checkAllFn:function(){
+        methods: {
+            checkAllFn: function () {
                 // this.lists.forEach(function(item){
                 //     // Error in v-on handler: "TypeError: checkAll is not a function"  
                 //     item.check = this.checkAll.check;                    
@@ -24,7 +24,7 @@ window.onload = function(){
                 // });
 
                 // 方法2 箭头函数
-                this.lists.forEach( item => {
+                this.lists.forEach(item => {
                     item.check = this.checkAll.check;
                 });
 
@@ -33,9 +33,9 @@ window.onload = function(){
                 //     item.check = vm.checkAll.check;
                 // });
             },
-            activeChange:function(){
+            activeChange: function () {
                 // true的状态
-                var activeTure = this.lists.filter(function(item){  //过滤出为true的状态
+                var activeTure = this.lists.filter(function (item) {  //过滤出为true的状态
                     return item.check == true;
                 });
 
@@ -47,7 +47,7 @@ window.onload = function(){
                 // };
 
                 // 三目运算
-                this.checkAll.check = (activeTure.length == this.lists.length) ? true : false ;
+                this.checkAll.check = (activeTure.length == this.lists.length) ? true : false;
             }
         }
     })
