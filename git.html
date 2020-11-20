@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>git教程</title>
 </head>
+
 <body>
 
     <div id="my">
@@ -70,7 +72,7 @@
     </div>
 
     <script>
-        window.onload = function(){
+        window.onload = function() {
             // Git 安装完成后  Git -->> Git Bash
             // $ git config --global user.name 'Your Name'
             // $ git config --global user.email 'email@example.com'
@@ -89,7 +91,7 @@
 
             // 相对于和把大象放进冰箱需要三步，把一个文件放进Git仓库只需要两步  
             // 在Git仓库编写一个文件 readme.txt
-            
+
             // 第一步： 用命令  $ git add readme.txt    执行
             // 没有任何显示就对了，Unix的哲学是 "没有消息就是好消息"，说明添加成功
             // 第二步： 用命令  $ git commit -m '提交的文件说明'        说明可以是任意内容，当然最好是有意义的，这样就能从历史记录方便找到改动的记录
@@ -101,7 +103,7 @@
             // 用命令 $ git status  可以让我们时刻掌握仓库当前的状态
             // no changes added to commit (use "git add" add/or "git commit -a")        -->>命令输出告诉我们  文件被修改，但还没有准备提交的修改
 
-            // 用命令 $ git diff  顾名思义就是查看difference    知道了对文件做了什么修改，再把它提交到仓库就放心多了    提价修改-提交新文件是一样的两步 git add '文件'  git commit -m '提交说明'
+            // 用命令 $ git diff  顾名思义就是查看difference    知道了对文件做了什么修改，再把它提交到仓库就放心多了    提交修改-提交新文件是一样的两步 git add '文件'  git commit -m '提交说明'
             // nothing to commit, working tree clean    没有需要提交的修改，工作目录是干净的
 
             // 删除文件夹
@@ -122,7 +124,7 @@
             // $ git reflog 用来记录你的每一次命令  -->> 从输出可以知道 commit id 
             // $ git reset --hard commit_id     eg: git reset --hard dc43950
             // cat readme.txt   cat命令主要用来查看文件内容，创建文件，文件合并，追加文件内容等功能。
-            
+
             // 新建文件夹：
             // mkdir + 文件夹名称
             // 新建文件有两种方式：
@@ -151,10 +153,10 @@
             // 撤销修改
             // 场景1：  当你乱改了工作区某个文件的内容，想直接丢弃工作区的修改时，用命令 git checkout -- file (file表示文件名)
             // 场景2：  当你不但乱改了工作区某个文件的内容，还添加到了暂存区，想丢弃修改，分两步
-                // 第一步： git reset HEAD file
-                // 第二步： git checkout -- file
+            // 第一步： git reset HEAD file
+            // 第二步： git checkout -- file
             // 场景3：  已经提交了不合适的修改到版本库时，想要撤销本次提交，回退版本   git reset --hard  dc34950
-                // 前提是没有推送到远程库  一旦把修改的文件“stupid boss”提交推送到远程版本库，那你就真的惨了...
+            // 前提是没有推送到远程库  一旦把修改的文件“stupid boss”提交推送到远程版本库，那你就真的惨了...
 
 
             // 删除文件
@@ -169,7 +171,7 @@
             // git checkout -- text.txt  
             // 命令 git checkout 其实就是版本库里的版本替换工作区的版本，无论是工作区是修改还是删除，都可以"一键还原"
             // 删除多个文件恢复  git checkout .       添加多个文件  git add .
-            
+
             // 命令 git rm 用于删除一个文件，如果一个文件已经被提交到版本库，那么你永远不用担心误删，但是要小心，你只能恢复到文件的最新版本，你会丢失最近一次提交后的修改内容
 
             // rm text.txt || 手动删除  -->> git status   -> 恢复  git checkout text.txt
@@ -183,4 +185,5 @@
     </script>
 
 </body>
+
 </html>
